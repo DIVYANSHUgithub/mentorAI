@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import PageBackNav from './PageBackNav';
 import { 
   FaBook, 
   FaCheckCircle, 
@@ -14,9 +15,14 @@ import {
   FaUsers
 } from 'react-icons/fa';
 
-function ProgressSection({ stats, courses, recentActivities }) {
+function ProgressSection({ stats, courses, recentActivities, showDashboardBack }) {
   return (
     <div className="space-y-6">
+      {showDashboardBack && (
+        <div className="rounded-xl border border-gray-200 bg-white px-4 py-3 dark:border-gray-700 dark:bg-gray-800">
+          <PageBackNav />
+        </div>
+      )}
       {/* Progress Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}

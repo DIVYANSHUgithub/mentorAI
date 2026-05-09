@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import PageBackNav from './PageBackNav';
 
 function EduAIAssistant() {
   const [messages, setMessages] = useState([]);
@@ -53,6 +54,10 @@ function EduAIAssistant() {
     <div className="app-root">
       <div className="chat-container">
         <header className="chat-header">
+          <PageBackNav
+            className="mb-4"
+            buttonClassName="inline-flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm font-semibold text-sky-200 transition-colors hover:bg-white/10 hover:text-white"
+          />
           <h1>eduAI Assistant</h1>
           <p>Ask any educational question and get AI-powered help.</p>
         </header>

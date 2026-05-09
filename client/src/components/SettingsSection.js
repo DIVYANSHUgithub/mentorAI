@@ -5,12 +5,18 @@ import {
   FaUser
 } from 'react-icons/fa';
 import { useDarkTheme } from './DarkThemeProvider';
+import PageBackNav from './PageBackNav';
 
-function SettingsSection({ user, handleLogout }) {
+function SettingsSection({ user, handleLogout, showDashboardBack }) {
   const { isDarkMode, toggleDarkMode } = useDarkTheme();
 
   return (
     <div className="space-y-6">
+      {showDashboardBack && (
+        <div className="rounded-xl border border-gray-200 bg-white px-4 py-3 dark:border-gray-700 dark:bg-gray-800">
+          <PageBackNav />
+        </div>
+      )}
       {/* Settings Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}

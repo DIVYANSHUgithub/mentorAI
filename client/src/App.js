@@ -4,7 +4,6 @@ import LandingPage from './components/LandingPage';
 import Signup from './components/signup';
 import Login from './components/login';
 import HomePage from './components/homePage';
-import CoursesSection from './components/CoursesSection';
 import ProgressSection from './components/ProgressSection';
 import CommunitySection from './components/CommunitySection';
 import SettingsSection from './components/SettingsSection';
@@ -13,6 +12,7 @@ import { DarkThemeProvider } from './components/DarkThemeProvider';
 import EduAIAssistant from './components/eduaiAssistant';
 import OfferedCourses from './components/OfferedCourses';
 import CourseDetail from './components/CourseDetail';
+import BatchLearn from './components/BatchLearn';
 
 
 
@@ -33,12 +33,40 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
           
-          <Route path="/progress" element={<ProtectedRoute><ProgressSection /></ProtectedRoute>} />
+          <Route
+            path="/progress"
+            element={
+              <ProtectedRoute>
+                <div className="min-h-screen bg-gray-50 p-4 dark:bg-gray-900 sm:p-6">
+                  <ProgressSection showDashboardBack />
+                </div>
+              </ProtectedRoute>
+            }
+          />
           <Route path="/courses" element={<ProtectedRoute><OfferedCourses/></ProtectedRoute>}/>
+          <Route path="/courses/:id/learn" element={<ProtectedRoute><BatchLearn /></ProtectedRoute>} />
           <Route path="/courses/:id" element={<ProtectedRoute><CourseDetail /></ProtectedRoute>} />
-          <Route path="/community" element={<ProtectedRoute><CommunitySection /></ProtectedRoute>} />
+          <Route
+            path="/community"
+            element={
+              <ProtectedRoute>
+                <div className="min-h-screen bg-gray-50 p-4 dark:bg-gray-900 sm:p-6">
+                  <CommunitySection showDashboardBack />
+                </div>
+              </ProtectedRoute>
+            }
+          />
           <Route path="/ai-assistant" element={<ProtectedRoute><EduAIAssistant/></ProtectedRoute>}/>
-          <Route path="/settings" element={<ProtectedRoute><SettingsSection user={user} handleLogout={handleLogout} /></ProtectedRoute>} />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <div className="min-h-screen bg-gray-50 p-4 dark:bg-gray-900 sm:p-6">
+                  <SettingsSection user={user} handleLogout={handleLogout} showDashboardBack />
+                </div>
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Router>
     </DarkThemeProvider>
