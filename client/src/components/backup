@@ -1,0 +1,504 @@
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import { 
+  FaEye, 
+  FaEyeSlash, 
+  FaGoogle, 
+  FaGithub, 
+  FaBrain, 
+  FaTimes, 
+  FaCheckCircle,
+  FaExclamationTriangle,
+  FaSpinner,
+  FaUser,
+  FaLock,
+  FaEnvelope,
+  FaRocket,
+  FaShieldAlt
+} from 'react-icons/fa';
+
+function Login({ onClose, onSwitchToSignup }) {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [focusedField, setFocusedField] = useState('');
+  const [loginProgress, setLoginProgress] = useState(0);
+  const [showPasswordStrength, setShowPasswordStrength] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const navigate = useNavigate();
+
+  // Password strength calculation
+  const getPasswordStrength = (password) => {
+    if (!password) return 0;
+    let strength = 0;
+    if (password.length >= 6) strength += 25;
+    if (password.match(/[a-z]/)) strength += 25;
+    if (password.match(/[A-Z]/)) strength += 25;
+    if (password.match(/[0-9]/)) strength += 25;
+    return strength;
+  };
+
+  const passwordStrength = getPasswordStrength(formData.password);
+
+  // Auto-fill demo credentials
+  const handleDemoLogin = () => {
+    setFormData({
+      email: 'demo@example.com',
+      password: 'password123'
+    });
+    setRememberMe(true);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    
+    // Clear error when user starts typing
+    if (error) setError('');
+    
+    // Show password strength for password field
+    if (name === 'password') {
+      setShowPasswordStrength(value.length > 0);
+    }
+  };
+
+  const handleInputFocus = (fieldName) => {
+    setFocusedField(fieldName);
+  };
+
+  const handleInputBlur = () => {
+    setFocusedField('');
+  };
+
+  const validateForm = () => {
+    if (!formData.email) {
+      setError('Email is required');
+      return false;
+    }
+    if (!formData.password) {
+      setError('Password is required');
+      return false;
+    }
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+
+    setIsLoading(true);
+    setError('');
+    setLoginProgress(0);
+
+    // Simulate progress
+    const progressInterval = setInterval(() => {
+      setLoginProgress(prev => {
+        if (prev >= 90) {
+          clearInterval(progressInterval);
+          return 90;
+        }
+        return prev + 10;
+      });
+    }, 100);
+
+    try {
+      // Demo login - simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Demo credentials for testing
+      if (formData.email === 'demo@example.com' && formData.password === 'password123') {
+        setLoginProgress(100);
+        setSuccess('Login successful! Welcome back to AI Tech Educator.');
+        
+        // Store demo user data
+        const demoUser = {
+          id: 1,
+          name: 'Demo User',
+          email: formData.email,
+          role: 'student',
+          lastLogin: new Date().toISOString()
+        };
+        
+        localStorage.setItem('userToken', 'demo-token-123');
+        localStorage.setItem('userData', JSON.stringify(demoUser));
+        localStorage.setItem('isLoggedIn', 'true');
+        if (rememberMe) {
+          localStorage.setItem('rememberMe', 'true');
+        }
+        
+        // Redirect to home page after a short delay
+        setTimeout(() => {
+          navigate('/home');
+        }, 2000);
+        
+      } else {
+        setError('Invalid credentials. Please use demo@example.com / password123');
+        setLoginProgress(0);
+      }
+    } catch (err) {
+      setError('Login failed. Please check your connection and try again.');
+      setLoginProgress(0);
+    } finally {
+      setIsLoading(false);
+      clearInterval(progressInterval);
+    }
+  };
+
+  const handleSocialLogin = (provider) => {
+    setError(`${provider} login is not implemented yet. This is a demo version.`);
+  };
+
+  const getStrengthColor = (strength) => {
+    if (strength <= 25) return 'bg-red-500';
+    if (strength <= 50) return 'bg-orange-500';
+    if (strength <= 75) return 'bg-yellow-500';
+    return 'bg-green-500';
+  };
+
+  const getStrengthText = (strength) => {
+    if (strength <= 25) return 'Weak';
+    if (strength <= 50) return 'Fair';
+    if (strength <= 75) return 'Good';
+    return 'Strong';
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-gradient-to-br from-blue-900/90 via-purple-900/90 to-indigo-900/90 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4"
+      onClick={(e) => e.target === e.currentTarget && onClose()}
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.9, opacity: 0, y: 20 }}
+        transition={{ type: "spring", damping: 25, stiffness: 300 }}
+        className="bg-white/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-sm sm:max-w-md md:max-w-lg relative overflow-hidden max-h-[95vh] overflow-y-auto"
+      >
+        {/* Animated Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 opacity-50"></div>
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+        
+        <div className="relative p-4 sm:p-6 md:p-8">
+          {/* Close Button */}
+          <motion.button
+            whileHover={{ scale: 1.1, rotate: 90 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={onClose}
+            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors p-2 z-10"
+          >
+            <FaTimes className="text-xl" />
+          </motion.button>
+
+          {/* Header */}
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-center mb-6 sm:mb-8"
+          >
+            <motion.div 
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.2, type: "spring" }}
+              className="flex items-center justify-center space-x-2 sm:space-x-3 mb-4 sm:mb-6"
+            >
+              <div className="relative">
+                <FaBrain className="text-3xl sm:text-4xl text-blue-600" />
+                
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                  className="absolute inset-0 border-2 border-blue-200 rounded-full"
+                ></motion.div>
+              </div>
+              <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                EDUAI
+              </span>
+            </motion.div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Welcome Back</h2>
+            <p className="text-sm sm:text-base text-gray-600">Sign in to continue your learning journey</p>
+          </motion.div>
+
+          {/* Demo Login Button */}
+          <motion.button
+            whileHover={{ scale: 1.02, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleDemoLogin}
+            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 sm:py-4 px-4 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl mb-4 sm:mb-6 flex items-center justify-center space-x-2 text-sm sm:text-base"
+          >
+            <FaRocket className="text-base sm:text-lg" />
+            <span>🚀 Try Demo Login</span>
+          </motion.button>
+
+          {/* Progress Bar */}
+          <AnimatePresence>
+            {isLoading && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 4 }}
+                exit={{ opacity: 0, height: 0 }}
+                className="w-full bg-gray-200 rounded-full mb-6 overflow-hidden"
+              >
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${loginProgress}%` }}
+                  className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-300"
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Error/Success Messages */}
+          <AnimatePresence>
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-6 flex items-center space-x-2"
+              >
+                <FaExclamationTriangle className="text-red-500" />
+                <span>{error}</span>
+              </motion.div>
+            )}
+
+            {success && (
+              <motion.div
+                initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl mb-6 flex items-center space-x-2"
+              >
+                <FaCheckCircle className="text-green-500" />
+                <span>{success}</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Login Form */}
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+            {/* Email Field */}
+            <div className="relative">
+              <div className="relative">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  onFocus={() => handleInputFocus('email')}
+                  onBlur={handleInputBlur}
+                  className={`w-full px-3 sm:px-4 py-3 sm:py-4 pl-10 sm:pl-12 border-2 rounded-xl transition-all duration-300 text-sm sm:text-base ${
+                    focusedField === 'email' 
+                      ? 'border-blue-500 bg-blue-50/50' 
+                      : 'border-gray-200 hover:border-gray-300'
+                  } focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
+                  placeholder=" "
+                  required
+                />
+                <FaEnvelope className={`absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 transition-colors duration-300 text-sm sm:text-base ${
+                  focusedField === 'email' ? 'text-blue-500' : 'text-gray-400'
+                }`} />
+                <label
+                  htmlFor="email"
+                  className={`absolute left-10 sm:left-12 top-1/2 transform -translate-y-1/2 transition-all duration-300 pointer-events-none text-sm sm:text-base ${
+                    focusedField === 'email' || formData.email
+                      ? 'text-blue-500 text-xs sm:text-sm -translate-y-6 bg-white px-2'
+                      : 'text-gray-500'
+                  }`}
+                >
+                  Email Address
+                </label>
+              </div>
+            </div>
+
+            {/* Password Field */}
+            <div className="relative">
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  onFocus={() => handleInputFocus('password')}
+                  onBlur={handleInputBlur}
+                  className={`w-full px-3 sm:px-4 py-3 sm:py-4 pl-10 sm:pl-12 pr-10 sm:pr-12 border-2 rounded-xl transition-all duration-300 text-sm sm:text-base ${
+                    focusedField === 'password' 
+                      ? 'border-blue-500 bg-blue-50/50' 
+                      : 'border-gray-200 hover:border-gray-300'
+                  } focus:outline-none focus:ring-2 focus:ring-blue-500/20`}
+                  placeholder=" "
+                  required
+                />
+                <FaLock className={`absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 transition-colors duration-300 text-sm sm:text-base ${
+                  focusedField === 'password' ? 'text-blue-500' : 'text-gray-400'
+                }`} />
+                <label
+                  htmlFor="password"
+                  className={`absolute left-10 sm:left-12 top-1/2 transform -translate-y-1/2 transition-all duration-300 pointer-events-none text-sm sm:text-base ${
+                    focusedField === 'password' || formData.password
+                      ? 'text-blue-500 text-xs sm:text-sm -translate-y-6 bg-white px-2'
+                      : 'text-gray-500'
+                  }`}
+                >
+                  Password
+                </label>
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors text-sm sm:text-base"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </motion.button>
+              </div>
+
+              {/* Password Strength Indicator */}
+              <AnimatePresence>
+                {showPasswordStrength && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mt-2"
+                  >
+                    <div className="flex items-center space-x-2 mb-1">
+                      <span className="text-xs text-gray-500">Password strength:</span>
+                      <span className={`text-xs font-medium ${getStrengthColor(passwordStrength).replace('bg-', 'text-')}`}>
+                        {getStrengthText(passwordStrength)}
+                      </span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-1">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${passwordStrength}%` }}
+                        className={`h-1 rounded-full ${getStrengthColor(passwordStrength)}`}
+                      />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Remember Me & Forgot Password */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
+              <label className="flex items-center cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 transition-colors"
+                />
+                <span className="ml-2 text-sm text-gray-600 group-hover:text-gray-800 transition-colors">
+                  Remember me
+                </span>
+              </label>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                type="button"
+                onClick={() => setError('Password reset feature coming soon!')}
+                className="text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors self-start sm:self-auto"
+              >
+                Forgot password?
+              </motion.button>
+            </div>
+
+            {/* Submit Button */}
+            <motion.button
+              type="submit"
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              disabled={isLoading}
+              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 sm:py-4 px-4 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 text-sm sm:text-base"
+            >
+              {isLoading ? (
+                <>
+                  <FaSpinner className="animate-spin text-base sm:text-lg" />
+                  <span>Signing in...</span>
+                </>
+              ) : (
+                <>
+                  <FaShieldAlt className="text-base sm:text-lg" />
+                  <span>Sign In</span>
+                </>
+              )}
+            </motion.button>
+          </form>
+
+          {/* Divider */}
+          <div className="my-4 sm:my-6 flex items-center">
+            <div className="flex-1 border-t border-gray-300"></div>
+            <span className="px-3 sm:px-4 text-xs sm:text-sm text-gray-500 bg-white">Or continue with</span>
+            <div className="flex-1 border-t border-gray-300"></div>
+          </div>
+
+          {/* Social Login Buttons */}
+          <div className="space-y-2 sm:space-y-3">
+            <motion.button
+              whileHover={{ scale: 1.02, y: -1 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => handleSocialLogin('Google')}
+              className="w-full flex items-center justify-center space-x-2 sm:space-x-3 bg-white border-2 border-gray-200 text-gray-700 py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl font-medium hover:border-gray-300 hover:bg-gray-50 transition-all duration-300 text-sm sm:text-base"
+            >
+              <FaGoogle className="text-red-500 text-sm sm:text-base" />
+              <span>Continue with Google</span>
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.02, y: -1 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => handleSocialLogin('GitHub')}
+              className="w-full flex items-center justify-center space-x-2 sm:space-x-3 bg-gray-900 text-white py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl font-medium hover:bg-gray-800 transition-all duration-300 text-sm sm:text-base"
+            >
+              <FaGithub className="text-sm sm:text-base" />
+              <span>Continue with GitHub</span>
+            </motion.button>
+          </div>
+
+          {/* Sign Up Link */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="mt-6 sm:mt-8 text-center"
+          >
+            <p className="text-sm sm:text-base text-gray-600">
+              Don't have an account?{' '}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={onSwitchToSignup}
+                className="text-blue-600 hover:text-blue-800 font-semibold transition-colors"
+              >
+                Sign up for free
+              </motion.button>
+            </p>
+          </motion.div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+export default Login;
