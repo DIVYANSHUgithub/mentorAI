@@ -5,10 +5,7 @@ import { BATCHES } from '../data/batchCatalog';
 import { addPurchasedBatch } from '../utils/purchases';
 import { useNavigate } from 'react-router-dom';
 
-/**
- * Dashboard "Courses" tab — same batch cards as /courses (catalog-driven).
- * Props from HomePage are unused but kept for API compatibility.
- */
+/** Dashboard "Courses" tab — same batch cards as /courses (catalog-driven). */
 function CoursesSection() {
   const navigate = useNavigate();
   const [paymentBatch, setPaymentBatch] = useState(null);

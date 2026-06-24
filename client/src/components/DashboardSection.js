@@ -8,9 +8,7 @@ import {
   FaFire,
   FaRocket,
   FaChevronRight,
-  FaStar,
-  FaVideo,
-  FaPlay
+  FaStar
 } from 'react-icons/fa';
 
 // Shared courses data - matches OfferedCourses
@@ -57,7 +55,7 @@ const AVAILABLE_COURSES = [
   },
 ];
 
-function DashboardSection({ user, stats, courses, recentActivities, searchQuery, getLevelColor }) {
+function DashboardSection({ user, stats, recentActivities, searchQuery }) {
   const navigate = useNavigate();
 
   const handleCourseClick = (courseId) => {

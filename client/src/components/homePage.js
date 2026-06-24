@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import AIAssistant from './eduaiAssistant';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import DashboardSection from './DashboardSection';
@@ -9,7 +7,6 @@ import ProgressSection from './ProgressSection';
 import CoursesSection from './CoursesSection';
 import CommunitySection from './CommunitySection';
 import SettingsSection from './SettingsSection';
-import VideoPlayer from './VideoPlayer';
 
 function HomePage() {
   const navigate = useNavigate();
@@ -37,7 +34,6 @@ function HomePage() {
       rating: 4.8,
       students: 12450,
       thumbnail: "https://img.youtube.com/vi/8jLoIO9DgQk/maxresdefault.jpg",
-      // VideoPlayer: "presentation-app.mp4",
       progress: 65,
       category: "AI & ML",
       price: "$99",
@@ -88,22 +84,6 @@ function HomePage() {
       price: "$69",
       isFeatured: false,
       tags: ["JavaScript", "ES6+", "Async/Await"]
-    },
-    {
-      id: 5,
-      title: "Machine Learning Fundamentals",
-      instructor: "Dr. Sarah Chen",
-      duration: "8 weeks",
-      level: "Beginner",
-      rating: 4.8,
-      students: 12450,
-      thumbnail: "https://img.youtube.com/vi/8jLoIO9DgQk/maxresdefault.jpg",
-      // VideoPlayer: "presentation-app.mp4",
-      progress: 65,
-      category: "AI & ML",
-      price: "$99",
-      isFeatured: true,
-      tags: ["Python", "TensorFlow", "Neural Networks"]
     },
   ];
 
@@ -173,15 +153,6 @@ function HomePage() {
     navigate('/');
   };
 
-  const getLevelColor = (level) => {
-    switch (level) {
-      case 'Beginner': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
-      case 'Intermediate': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
-      case 'Advanced': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
-      default: return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
-    }
-  };
-
   const renderActiveSection = () => {
     switch (activeTab) {
       case 'dashboard':
@@ -189,10 +160,8 @@ function HomePage() {
           <DashboardSection
             user={user}
             stats={stats}
-            courses={courses}
             recentActivities={recentActivities}
             searchQuery={searchQuery}
-            getLevelColor={getLevelColor}
           />
         );
       case 'progress':
@@ -204,16 +173,9 @@ function HomePage() {
           />
         );
       case 'courses':
-        return (
-          <CoursesSection
-            courses={courses}
-            getLevelColor={getLevelColor}
-          />
-        );
+        return <CoursesSection />;
       case 'community':
         return <CommunitySection />;
-      case 'ai-chat':
-        return <eduaiAssistant/>;
       case 'settings':
         return (
           <SettingsSection
@@ -226,10 +188,8 @@ function HomePage() {
           <DashboardSection
             user={user}
             stats={stats}
-            courses={courses}
             recentActivities={recentActivities}
             searchQuery={searchQuery}
-            getLevelColor={getLevelColor}
           />
         );
     }

@@ -9,8 +9,7 @@ import {
   FaCog, 
   FaSignOutAlt
 } from 'react-icons/fa';
-import { Navigate, useNavigate } from 'react-router-dom';
-import EduAIAssistant from './eduaiAssistant';
+import { useNavigate } from 'react-router-dom';
 
 function Sidebar({ 
   activeTab, 
