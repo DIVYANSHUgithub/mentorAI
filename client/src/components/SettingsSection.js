@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { handleError, handleSuccess } from '../utils';
 import { 
   FaCog, 
   FaUser
@@ -7,9 +9,25 @@ import {
 import { useDarkTheme } from './DarkThemeProvider';
 import PageBackNav from './PageBackNav';
 
-function SettingsSection({ user, handleLogout, showDashboardBack }) {
+function SettingsSection({ user, showDashboardBack }) {
   const { isDarkMode, toggleDarkMode } = useDarkTheme();
+  const [loggedInUser,setLoggedInUser]=useState('');
+  const navigate=useNavigate();
+  useEffect(()=>{
+    setLoggedInUser(localStorage.getItem('loggedInUser'))
+  },[])
 
+  const handleLogout = (e) => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('loggedInUser');
+    e.preventDefault();
+    loggedInUser='';
+    localStorage.setItem('isLoggedIn',false);
+    handleSuccess('Logout succeed');
+    setTimeout(()=>{
+      navigate('/login');
+    }, 1000)
+  }
   return (
     <div className="space-y-6">
       {showDashboardBack && (

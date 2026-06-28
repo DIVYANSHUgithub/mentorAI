@@ -27,7 +27,6 @@ const signup=async(req,res)=>{
  
     }
 }
-
 const login=async(req,res)=>{
     // iske pahe humeko server-side validation likhna padega, Why?
     try{
@@ -47,7 +46,7 @@ const login=async(req,res)=>{
         const jwtToken=jwt.sign(
             {email:user.email, _id:user.id},
             process.env.JWT_SECRET,
-            {expiresIn: '24h'}
+            {expiresIn: '10d'}
 
         )
         res.status(200)
@@ -67,8 +66,18 @@ const login=async(req,res)=>{
     }
 }
 
+const logout=async(req,res)=>{
+    res.clearCookie('token');
+    res.status(200)
+        .json({message:'Logged out successfully',
+            success:true
+        })
+}
+
 
 module.exports={
     signup,
-    login
+    login,
+    logout
+    
 }
