@@ -14,8 +14,7 @@ import { useNavigate } from 'react-router-dom';
 function Sidebar({ 
   activeTab, 
   setActiveTab, 
-  sidebarCollapsed, 
-  handleLogout 
+  sidebarCollapsed
 }) {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: FaChartLine },
@@ -26,6 +25,14 @@ function Sidebar({
     { id: 'settings', label: 'Settings', icon: FaCog }
   ];
   const navigate=useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('userToken');
+    navigate('/login');
+  }
 
   return (
     <aside className={`bg-white dark:bg-gray-800 shadow-sm border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ${sidebarCollapsed ? 'w-16' : 'w-64'}`}>
@@ -67,7 +74,7 @@ function Sidebar({
             className="w-full flex items-center space-x-3 px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
           >
             <FaSignOutAlt className="text-lg" />
-            {!sidebarCollapsed && <span className="font-medium">Sign Out</span>}
+            {!sidebarCollapsed && <span className="font-medium" onSubmit={handleLogout}>Sign Out</span>}
           </motion.button>
         </div>
       </div>
