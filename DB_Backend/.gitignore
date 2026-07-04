@@ -65,7 +65,7 @@ env/
 # =========================
 # Machine Learning / AI
 # =========================
-models/
+
 checkpoints/
 weights/
 runs/

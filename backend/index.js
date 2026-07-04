@@ -63,6 +63,16 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`eduAI Assistant server listening on http://localhost:${PORT}`);
+});
+
+server.on('error', (error) => {
+  if (error.code === 'EADDRINUSE') {
+    console.error(`Port ${PORT} is already in use. Stop the other process or choose a different PORT.`);
+    process.exit(1);
+  }
+
+  console.error('Failed to start eduAI Assistant server:', error);
+  process.exit(1);
 });

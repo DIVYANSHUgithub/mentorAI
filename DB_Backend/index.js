@@ -6,6 +6,7 @@ const bodyParser=require('body-parser');
 const cors=require('cors');
 const AuthRouter=require('./Routes/AuthRouter');
 const ProductRouter=require('./Routes/ProductRouter');
+const CourseRouter=require('./Routes/CourseRouter');
 
 require('dotenv').config();
 require('./Models/db');
@@ -34,9 +35,20 @@ app.use(cors());
 
 app.use('/auth',AuthRouter);
 app.use('/products',ProductRouter);
+app.use('/courses',CourseRouter);
 
 
-app.listen(PORT, ()=> {
+const server = app.listen(PORT, ()=> {
     // what is listen here means can you 
     console.log(`Server is ready now on ${PORT}`)
-})
+});
+
+server.on('error', (error) => {
+    if (error.code === 'EADDRINUSE') {
+        console.error(`Port ${PORT} is already in use. Stop the other process or set a different PORT before starting the DB backend.`);
+        process.exit(1);
+    }
+
+    console.error('Failed to start DB backend server:', error);
+    process.exit(1);
+});

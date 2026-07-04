@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
 import Signup from './components/signup';
-import Login from './components/login';
+import Login from './components//login';
 import HomePage from './components/homePage';
 import ProgressSection from './components/ProgressSection';
 import CommunitySection from './components/CommunitySection';
@@ -10,20 +10,25 @@ import SettingsSection from './components/SettingsSection';
 import ProtectedRoute from './ProtectedRoute';
 import { DarkThemeProvider } from './components/DarkThemeProvider';
 import EduAIAssistant from './components/eduaiAssistant';
-import OfferedCourses from './components/OfferedCourses';
-import CourseDetail from './components/CourseDetail';
-import BatchLearn from './components/BatchLearn';
+import OfferedCourses from './components/Course/OfferedCourses';
+import BatchLearn from './components/Course/BatchLearn';
+import CourseDetail from './components/Course/CourseDetail';
 
 
 
 function App() {
-  const user = JSON.parse(localStorage.getItem('userData')) || null;
+  const user = localStorage.getItem('loggedInUser') || null;
   const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('loggedInUser');
+    localStorage.removeItem('userMail');
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userData');
     localStorage.removeItem('userToken');
     window.location.href = '/login';
   };
+  
+
   return (
     <DarkThemeProvider>
       <Router>
@@ -43,7 +48,12 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/courses" element={<ProtectedRoute><OfferedCourses/></ProtectedRoute>}/>
+          <Route 
+              path="/courses" 
+              element={
+                <div className="min-h-screen bg-gray-50 p-4 dark:bg-gray-900 sm:p-6">
+                      <OfferedCourses showDashboardBack />
+                </div>}/>
           <Route path="/courses/:id/learn" element={<ProtectedRoute><BatchLearn /></ProtectedRoute>} />
           <Route path="/courses/:id" element={<ProtectedRoute><CourseDetail /></ProtectedRoute>} />
           <Route
