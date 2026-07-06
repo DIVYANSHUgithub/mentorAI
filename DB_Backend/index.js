@@ -17,7 +17,7 @@ app.get('/ping', (req,res)=>{
     res.send('PONG');
 })
 
-/* jo post ke andar request body hoti hai (username, password, email) jo hum cllient 
+/* jo post ke andar request body hoti hai (username, password, email) jo hum client 
     se lene wale hain uske liye ye bodyParser ek library hai usko midde ware mein connect karna jaroori hai*/
 /* uske liye hum likhenge */
 

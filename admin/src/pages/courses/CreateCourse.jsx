@@ -46,7 +46,7 @@ const emptyForm = {
   included: [...DEFAULT_INCLUDED],
 };
 
-export default function CreateCoursePage() {
+export default function CreateCoursePage(){
   const { courseId } = useParams();
   const navigate = useNavigate();
   const { setActiveCourseId } = useActiveCourse();
@@ -321,6 +321,7 @@ export default function CreateCoursePage() {
               </button>
               <input
                 ref={fileRef}
+                required
                 type="file"
                 accept="image/*"
                 className="hidden"
@@ -328,7 +329,9 @@ export default function CreateCoursePage() {
                   const file = e.target.files?.[0];
                   if (file) {
                     setThumbName(file.name);
-                    update('thumbnail', file.name);
+                    update('thumbnail', file);
+
+                    
                   }
                 }}
               />
