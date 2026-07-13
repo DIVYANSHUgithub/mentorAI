@@ -3,8 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, CheckCircle2, Rocket } from 'lucide-react';
 import Breadcrumb from '../../components/layout/breadcrumb';
 import CourseStepper from '../../components/courses/CourseStepper';
-import { courseApi } from '../../services/courseApi';
 import { useActiveCourse } from '../../context/CourseContext';
+import axios from 'axios';
 
 function SummaryRow({ label, value }) {
   return (
@@ -25,48 +25,40 @@ export default function PublishCoursePage() {
   const [publishing, setPublishing] = useState(false);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    courseApi
-      .getById(courseId)
-      .then((data) => {
-        setCourse(data);
-        setActiveCourseId(courseId);
-      })
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, [courseId, setActiveCourseId]);
 
-  const lectureCount =
-    course?.sections?.reduce((acc, s) => acc + (s.lectures?.length || 0), 0) || 0;
+  const loadCourse=async ()=>{
+    try{
+      setLoading(true);
+    const response=await axios.get(`http://localhost:9000/courses/${courseId}`)
+    setCourse(response.data.course)
+    return response
+  }catch(error){
+    setError(
+      error.response?.data?.message ||
+      error.message ||
+      'Failed to load course'
+    );
+  }finally{
+    setLoading(false);
+  }
+  }
+  useEffect(()=>{
+    loadCourse()
+  },[courseId])
 
   const handlePublish = async () => {
     setPublishing(true);
     setError('');
-    try {
-      const updated = await courseApi.update(courseId, {
-        status: 'published',
-        publishDate: course.publishDate || new Date().toISOString(),
-      });
-      setCourse(updated);
-      navigate('/courses');
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setPublishing(false);
-    }
+    const updated=await axios.post(`http://localhost:9000/courses/${courseId}/publish`)
+    setCourse(updated.data.course)
+    setPublishing(false)
+    navigate(`/courses`)
   };
 
   const handleSaveDraft = async () => {
     setPublishing(true);
     setError('');
-    try {
-      await courseApi.update(courseId, { status: 'draft' });
-      navigate('/courses');
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setPublishing(false);
-    }
+
   };
 
   if (loading) {
@@ -111,7 +103,6 @@ export default function PublishCoursePage() {
             <SummaryRow label="Instructor" value={course.instructor || '—'} />
             <SummaryRow label="Level" value={course.level} />
             <SummaryRow label="Sections" value={String(course.sections?.length || 0)} />
-            <SummaryRow label="Lectures" value={String(lectureCount)} />
             <SummaryRow
               label="Price"
               value={course.isFree ? 'Free' : `₹${Number(course.price || 0).toLocaleString('en-IN')}`}

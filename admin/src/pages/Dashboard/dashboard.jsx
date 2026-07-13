@@ -2,21 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, CheckCircle2, Clock, Plus, Archive } from 'lucide-react';
 import CourseStatCard from '../../components/courses/CourseStatCard';
-import { courseApi } from '../../services/courseApi';
 
 export default function DashboardPage() {
   const [stats, setStats] = useState({ total: 0, published: 0, draft: 0, archived: 0 });
   const [recentCourses, setRecentCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    Promise.all([courseApi.getStats(), courseApi.getAll()])
-      .then(([statsData, courses]) => {
-        setStats(statsData);
-        setRecentCourses(courses.slice(0, 5));
-      })
-      .finally(() => setLoading(false));
-  }, []);
 
   const statCards = [
     {

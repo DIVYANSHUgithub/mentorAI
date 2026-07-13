@@ -15,9 +15,9 @@ import {
 import CourseStatCard from '../../components/courses/CourseStatCard';
 import CourseRow, { CourseTableHeader } from '../../components/courses/CourseRow';
 import { FilterSelect } from '../../components/courses/FormFields';
-import { courseApi } from '../../services/courseApi';
 import { useActiveCourse } from '../../context/CourseContext';
 import { COURSE_CATEGORIES } from '../../config/constants';
+import axios from 'axios';
 
 export default function AllCoursesPage() {
   const { activeCourseId, setActiveCourseId } = useActiveCourse();
@@ -32,21 +32,16 @@ export default function AllCoursesPage() {
   const [selectAll, setSelectAll] = useState(false);
   const [view, setView] = useState('list');
 
-  const fetchCourses = () => {
+  const fetchCourses = async () => {
     setLoading(true);
     const params = {};
     if (search) params.search = search;
     if (statusFilter) params.status = statusFilter;
     if (categoryFilter) params.category = categoryFilter;
-
-    Promise.all([courseApi.getAll(params), courseApi.getStats()])
-      .then(([courseData, statsData]) => {
-        setCourses(courseData);
-        setStats(statsData);
-        setError('');
-      })
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
+    const courses=await axios.get('http://localhost:9000/courses')
+    setCourses(courses.data.courses)
+    setLoading(false)
+    return courses;
   };
 
   useEffect(() => {
@@ -75,20 +70,13 @@ export default function AllCoursesPage() {
     });
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (courseId) => {
+    console.log(courseId)
     if (!confirm('Delete this course? This cannot be undone.')) return;
-    try {
-      await courseApi.remove(id);
-      if (activeCourseId === id) setActiveCourseId(null);
-      setCheckedRows((prev) => {
-        const next = new Set(prev);
-        next.delete(id);
-        return next;
-      });
-      fetchCourses();
-    } catch (err) {
-      setError(err.message);
-    }
+
+    const updated=await axios.delete(`http://localhost:9000/courses/${courseId}`)
+    setCourses(updated.data.course)
+
   };
 
   const statCards = [

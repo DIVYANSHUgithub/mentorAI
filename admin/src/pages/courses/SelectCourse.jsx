@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { BookOpen } from 'lucide-react';
-import { courseApi } from '../../services/courseApi';
 import { useActiveCourse } from '../../context/CourseContext';
 
 function SelectCoursePage() {
@@ -14,13 +13,7 @@ function SelectCoursePage() {
 
   const redirect = searchParams.get('redirect') || 'sections';
 
-  useEffect(() => {
-    courseApi
-      .getAll()
-      .then(setCourses)
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, []);
+
 
   const handleSelect = (courseId) => {
     setActiveCourseId(courseId);

@@ -67,6 +67,11 @@ const router = createBrowserRouter([
             element: <PublishCoursePage />,
             handle: { title: 'Publish Course' },
           },
+          {
+            path:':sectionId/upload',
+            element: <UploadContentPage/>,
+            handle:{title: 'Upload Content'}
+          }
         ],
       },
       { path: '*', element: <Navigate to="/dashboard" replace /> },

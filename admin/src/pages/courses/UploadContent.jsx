@@ -14,9 +14,9 @@ import Breadcrumb from '../../components/layout/breadcrumb';
 import CourseStepper from '../../components/courses/CourseStepper';
 import TipsPanel from '../../components/ui/TipsPanel';
 import { FieldLabel } from '../../components/courses/FormFields';
-import { courseApi } from '../../services/courseApi';
 import { useActiveCourse } from '../../context/CourseContext';
 import { CONTENT_TYPES } from '../../config/constants';
+import axios from 'axios';
 
 const FORMATS = ['MP4', 'WEBM', 'MOV', 'PDF', 'PPT', 'MP3', 'ZIP'];
 
@@ -50,20 +50,26 @@ export default function UploadContentPage() {
   const [file, setFile] = useState(null);
   const [success, setSuccess] = useState('');
 
-  useEffect(() => {
-    courseApi
-      .getById(courseId)
-      .then((data) => {
-        setCourse(data);
-        setActiveCourseId(courseId);
-        if (!sectionId && data.sections?.length) {
-          setSectionId(data.sections[0]._id);
-        }
-      })
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, [courseId, setActiveCourseId]);
+  const loadCourse=async ()=>{
+    try{
+      setLoading(true);
+    const response=await axios.get(`http://localhost:9000/courses/${courseId}`)
+    setCourse(response.data.course)
+    return response
+  }catch(error){
+    setError(
+      error.response?.data?.message ||
+      error.message ||
+      'Failed to load course'
+    );
+  }finally{
+    setLoading(false);
+  }
+  }
 
+  useEffect(()=>{
+    loadCourse()
+  },[courseId])
   const handleFile = (f) => {
     if (!f) return;
     setFile({
@@ -81,27 +87,23 @@ export default function UploadContentPage() {
       setError('Content title is required');
       return;
     }
+    
 
     setSaving(true);
     setError('');
 
     try {
-      const updated = await courseApi.addLecture(courseId, sectionId, {
-        title: title.trim(),
-        contentType,
-        description,
-        duration,
-        isPreview,
-        fileName: file?.name || '',
-        fileSize: file?.size || '',
-        order: 0,
-      });
+
       setCourse(updated);
       setTitle('');
       setDescription('');
       setDuration('');
       setFile(null);
       setSuccess('Content saved successfully.');
+
+      const formData=new FormData();
+      formData.append('title', form.title)
+
     } catch (err) {
       setError(err.message);
     } finally {

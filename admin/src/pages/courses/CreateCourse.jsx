@@ -14,7 +14,6 @@ import {
 import Breadcrumb from '../../components/layout/breadcrumb';
 import CourseStepper from '../../components/courses/CourseStepper';
 import { FieldLabel, CountedInput, SelectField } from '../../components/courses/FormFields';
-import { courseApi } from '../../services/courseApi';
 import { useActiveCourse } from '../../context/CourseContext';
 import {
   COURSE_CATEGORIES,
@@ -22,6 +21,7 @@ import {
   COURSE_LANGUAGES,
   DEFAULT_INCLUDED,
 } from '../../config/constants';
+import axios from 'axios';
 
 const LEVELS = [
   { key: 'beginner', label: 'Beginner', icon: Sprout, color: 'text-emerald-500' },
@@ -44,6 +44,7 @@ const emptyForm = {
   publishDate: '',
   thumbnail: '',
   included: [...DEFAULT_INCLUDED],
+  status:'draft'
 };
 
 export default function CreateCoursePage(){
@@ -57,37 +58,7 @@ export default function CreateCoursePage(){
   const [loading, setLoading] = useState(!!courseId);
   const [error, setError] = useState('');
   const [thumbName, setThumbName] = useState('');
-
-  useEffect(() => {
-    if (!courseId) return;
-
-    setLoading(true);
-    courseApi
-      .getById(courseId)
-      .then((course) => {
-        setForm({
-          title: course.title || '',
-          subtitle: course.subtitle || '',
-          shortDescription: course.shortDescription || '',
-          fullDescription: course.fullDescription || '',
-          category: course.category || '',
-          subcategory: course.subcategory || '',
-          instructor: course.instructor || 'Admin User',
-          language: course.language || 'English',
-          level: course.level || 'beginner',
-          status: course.status || 'draft',
-          publishDate: course.publishDate
-            ? new Date(course.publishDate).toISOString().split('T')[0]
-            : '',
-          thumbnail: course.thumbnail || '',
-          included: course.included?.length ? course.included : [...DEFAULT_INCLUDED],
-        });
-        setActiveCourseId(courseId);
-      })
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, [courseId, setActiveCourseId]);
-
+  const [course, setCourse]=useState('')
   const update = (field, value) => setForm((prev) => ({ ...prev, [field]: value }));
 
   const addIncludedItem = () => {
@@ -104,39 +75,94 @@ export default function CreateCoursePage(){
     );
   };
 
-  const handleSave = async () => {
-    if (!form.title.trim()) {
-      setError('Course title is required');
+
+
+  const loadCourse=async ()=>{
+    try{
+      setLoading(true);
+    const response=await axios.get(`http://localhost:9000/courses/${courseId}`)
+    setCourse(response.data.course)
+    return response
+  }catch(error){
+    setError(
+      error.response?.data?.message ||
+      error.message ||
+      'Failed to load course'
+    );
+  }finally{
+    setLoading(false);
+  }
+  }
+
+  useEffect(()=>{
+    loadCourse()
+  },[courseId])
+
+  const handleSave = async (event) => {
+    event.preventDefault();
+   
+    if(!form.title.trim()){
+      setError("course title is required")
       return;
     }
-    if (!form.category) {
-      setError('Category is required');
+    if(!form.instructor){
+      setError("course instructor is required")
+      return;
+    }
+    if(!form.thumbnail){
+      
+      setError("upload thumbnail for course")
+      return;
+    }
+    if(!form.category){
+      setError("enter the course category")
+      return;
+    }
+    if(!form.language)
+    {
+      setError("enter the language")
+      return;
+    }
+    if(!form.fullDescription){
+      setError("enter the description")
       return;
     }
 
-    setSaving(true);
-    setError('');
+    const formData=new FormData();
+    try{
+      formData.append('title', form.title)
+      formData.append('subtitle', form.subtitle)
+      formData.append('category', form.category)
+      formData.append('subcategory', form.subcategory)
+      formData.append('instructor', form.instructor)
+      formData.append('language', form.language)
+      formData.append('level', form.level)
+      formData.append('shortDescription', form.shortDescription)
+      formData.append('fullDescription', form.fullDescription)
+      formData.append('status', form.status)
+      formData.append(
+        'included',
+        JSON.stringify(form.included)
+      );
+      //handle thumbnail
+      formData.append('thumbnail', form.thumbnail);
+      formData.append('publishDate', form.publishDate)
 
-    try {
-      const payload = {
-        ...form,
-        publishDate: form.publishDate || null,
-      };
-
-      let saved;
-      if (courseId) {
-        saved = await courseApi.update(courseId, payload);
-      } else {
-        saved = await courseApi.create(payload);
-      }
-
-      setActiveCourseId(saved._id);
-      navigate(`/courses/${saved._id}/sections`);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setSaving(false);
+      const result=await axios.post('http://localhost:9000/courses', formData)
+      console.log('Saved course:', result.data);
+      const courseId=result.data.courseId
+      console.log(courseId)
+      setActiveCourseId(courseId)
+      navigate(`/courses/${courseId}/sections`)
     }
+    catch(error){
+      console.error(
+        'course creation failed:', error.response?.data||error.message
+      );
+      
+
+    }
+
   };
 
   if (loading) {

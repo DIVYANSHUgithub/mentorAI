@@ -4,14 +4,14 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Breadcrumb from '../../components/layout/breadcrumb';
 import CourseStepper from '../../components/courses/CourseStepper';
 import { FieldLabel } from '../../components/courses/FormFields';
-import { courseApi } from '../../services/courseApi';
 import { useActiveCourse } from '../../context/CourseContext';
+import axios from 'axios';
 
 export default function PricingPage() {
   const { courseId } = useParams();
+  const [loading, setLoading]=useState()
   const navigate = useNavigate();
   const { setActiveCourseId } = useActiveCourse();
-
   const [course, setCourse] = useState(null);
   const [price, setPrice] = useState(0);
   const [originalPrice, setOriginalPrice] = useState(0);
@@ -19,34 +19,40 @@ export default function PricingPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    courseApi
-      .getById(courseId)
-      .then((data) => {
-        setCourse(data);
-        setPrice(data.price || 0);
-        setOriginalPrice(data.originalPrice || 0);
-        setIsFree(data.isFree || false);
-        setActiveCourseId(courseId);
-      })
-      .catch((err) => setError(err.message));
-  }, [courseId, setActiveCourseId]);
+  const loadCourse=async ()=>{
+    try{
+      setLoading(true);
+    const response=await axios.get(`http://localhost:9000/courses/${courseId}`)
+    setCourse(response.data.course)
+    return response
+  }catch(error){
+    setError(
+      error.response?.data?.message ||
+      error.message ||
+      'Failed to load course'
+    );
+  }finally{
+    setLoading(false);
+  }
+  }
+
+  useEffect(()=>{
+    loadCourse()
+  }, [courseId])
+
 
   const handleSave = async () => {
     setSaving(true);
     setError('');
-    try {
-      await courseApi.update(courseId, {
-        price: isFree ? 0 : Number(price),
-        originalPrice: Number(originalPrice),
-        isFree,
-      });
-      navigate(`/courses/${courseId}/publish`);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setSaving(false);
-    }
+    const savePrice=await axios.post(`http://localhost:9000/courses/${courseId}/price`,{
+      price,
+      originalPrice,
+      isFree
+    })
+
+    setCourse(savePrice.data.course)
+    setSaving(false);
+    navigate(`/courses/${courseId}/publish`)
   };
 
   if (!course) {

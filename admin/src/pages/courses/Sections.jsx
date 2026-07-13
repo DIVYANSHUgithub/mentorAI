@@ -13,8 +13,8 @@ import CourseStepper from '../../components/courses/CourseStepper';
 import SectionCard from '../../components/courses/SectionCard';
 import TipsPanel from '../../components/ui/TipsPanel';
 import { FieldLabel, CountedInput } from '../../components/courses/FormFields';
-import { courseApi } from '../../services/courseApi';
 import { useActiveCourse } from '../../context/CourseContext';
+import axios from 'axios';
 
 const SECTION_TIPS = [
   'Keep section titles short and descriptive',
@@ -24,6 +24,7 @@ const SECTION_TIPS = [
 ];
 
 export default function SectionsPage() {
+  
   const { courseId } = useParams();
   const navigate = useNavigate();
   const { setActiveCourseId } = useActiveCourse();
@@ -39,61 +40,72 @@ export default function SectionsPage() {
   const [order, setOrder] = useState('1');
   const [status, setStatus] = useState('active');
 
-  const loadCourse = () => {
-    setLoading(true);
-    courseApi
-      .getById(courseId)
-      .then((data) => {
-        setCourse(data);
-        setActiveCourseId(courseId);
-        setOrder(String((data.sections?.length || 0) + 1));
-      })
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  };
+  const loadCourse=async ()=>{
+    try{
+      setLoading(true);
+    const response=await axios.get(`http://localhost:9000/courses/${courseId}`)
+    setCourse(response.data.course)
+    setActiveCourseId(courseId);
+    setOrder(String((response.data.course?.sections?.length || 0) + 1));
+
+    return response
+  }catch(error){
+    setError(
+      error.response?.data?.message ||
+      error.message ||
+      'Failed to load course'
+    );
+  }finally{
+    setLoading(false);
+  }
+  }
 
   useEffect(() => {
     loadCourse();
   }, [courseId]);
 
-  const handleAddSection = async () => {
-    if (!title.trim()) {
-      setError('Section title is required');
-      return;
+
+
+  const handleAddSection=async ()=>{
+    if(!title)
+    {
+      setError('section title is required')
+      return
     }
 
     setSaving(true);
-    setError('');
+    setError('')
 
-    try {
-      const updated = await courseApi.addSection(courseId, {
+    try{
+      const addSection=await axios.post(`http://localhost:9000/courses/${courseId}/sections`,{
         title: title.trim(),
-        description,
-        order: Number(order) || 1,
-        status,
-        lectures: [],
-      });
-      setCourse(updated);
-      setTitle('');
-      setDescription('');
-      setShowForm(false);
-      setOrder(String((updated.sections?.length || 0) + 1));
-    } catch (err) {
-      setError(err.message);
-    } finally {
+        description: description.trim(),
+      })
+      const updated = addSection.data.course
+      setCourse(updated)
+      
+      setTitle('')
+      setDescription('')
+      setShowForm(false)
+      setOrder(String((updated.sections?.length||0)+1))
+    }catch(error){
+      setError(error.message);
+    }
+    finally{
       setSaving(false);
-    }
-  };
+    }  
+  }
 
-  const handleDeleteSection = async (sectionId) => {
-    if (!confirm('Delete this section?')) return;
-    try {
-      const updated = await courseApi.deleteSection(courseId, sectionId);
-      setCourse(updated);
-    } catch (err) {
-      setError(err.message);
+  const handleDeleteSection=async (sectionId)=>{
+    if(!confirm('Delete this section?'))
+      return;
+    try{
+      const updated=await axios.delete(`http://localhost:9000/courses/${courseId}/sections/${sectionId}`)
+      setCourse(updated.data.course);
+    }catch(error){
+      setError(error.message)
     }
-  };
+  }
 
   if (loading) {
     return <main className="px-4 sm:px-6 py-6 text-sm text-slate-500">Loading sections...</main>;
