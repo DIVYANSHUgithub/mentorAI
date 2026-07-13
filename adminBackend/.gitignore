@@ -1,4 +1,3 @@
-node_modules/
 # =========================
 # Dependencies
 # =========================
@@ -66,7 +65,7 @@ env/
 # =========================
 # Machine Learning / AI
 # =========================
-models/
+
 checkpoints/
 weights/
 runs/
