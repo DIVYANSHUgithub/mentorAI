@@ -4,7 +4,7 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import DashboardSection from './DashboardSection';
 import ProgressSection from './ProgressSection';
-import CoursesSection from './Course/CoursesSection';
+// import CoursesSection from './Course/CoursesSection';
 import CommunitySection from './CommunitySection';
 import SettingsSection from './SettingsSection';
 import OfferedCourses from './Course/OfferedCourses';
