@@ -30,6 +30,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import Course from './model/courseModel.js';
 import Section from './model/sectionModel.js';
 import axios from 'axios';
+import Lecture from './model/lectureModel.js';
 
 
 dotenv.config();
@@ -73,7 +74,7 @@ const s3 = new S3Client({
 // which memory us used in multer.memoryStorage() where actually data is stored in multer
 // multer stores the memory in the temporary memory of the server where server stores the data in storage of the machine's Ram
 
-const upload = multer({
+const thumbnailUpload = multer({
   storage: multer.memoryStorage(),
 
   limits: {
@@ -97,7 +98,7 @@ const upload = multer({
 
 app.post(
   '/courses',
-  upload.single('thumbnail'),
+  thumbnailUpload.single('thumbnail'),
   async (req, res) => {
     try {
       console.log('Text fields:', req.body);
@@ -295,10 +296,8 @@ app.get("/courses/:courseId",async(req,res)=>{
   console.log("Course ID received:", courseId);
   
   await Course.findById(courseId).lean();
-  console.log("Course fetched:", course);
   const sections = await Section.find({
       courseId: courseId,
-      course
     }).lean();
 
   if(!course)
@@ -390,6 +389,89 @@ app.post(`/courses/:courseId/publish`, async(req, res)=>{
     course:publishedCourse
   })
 
+});
+
+//------------------------------------------
+// handle multer for lecture content upload
+//------------------------------------------
+
+const lectureUpload = multer({
+  storage: multer.memoryStorage(),
+
+  limits: {
+    fileSize: 500 * 1024 * 1024, // adjust later
+  },
+
+  fileFilter: (req, file, cb) => {
+
+    const allowedTypes = [
+      "video/mp4",
+      "video/webm",
+    ];
+
+    if (!allowedTypes.includes(file.mimetype)) {
+      return cb(new Error("Unsupported file type"));
+    }
+
+    cb(null, true);
+  }
+});
+
+
+
+// ------------------------------
+// Handle content upload
+// ------------------------------
+
+app.post(`/courses/:courseId/sections/:sectionId/upload`,lectureUpload.single("file"), async (req, res)=>{
+  const {courseId, sectionId}=req.params;
+  const {title, description, contentType, file, duration, isPreview, order}=req.body;
+  try{
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "No file uploaded",
+      });
+    }
+    // create unique file Url
+    const fileKey=`course-video/${courseId}-section-${sectionId}-lectureVideo-${Date.now}-${req.file.originalname}`;
+
+    // upload video to aws server
+    const uploadCommand=new PutObjectCommand({
+      Bucket: process.env.AWS_S3_BUCKET_NAME,
+      Key: fileKey,
+      Body: req.file.buffer,
+      ContentType: req.file.mimetype
+
+    })
+
+    await s3.send(uploadCommand)
+    const lecture= await Lecture.create({
+      courseId,
+      sectionId,
+      title,
+      description,
+      contentType,
+      duration,
+      isPreview,
+      order,
+      fileUrl: fileKey
+    })
+
+    
+    return res.status(201).json({
+      success:true,
+      message:"Lecture uploaded successfully",
+      lecture
+    })
+  }catch(error){
+    console.error('Upload content error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to upload content',
+      error: error.message,
+    });
+  }
 });
 
 // -------------------------

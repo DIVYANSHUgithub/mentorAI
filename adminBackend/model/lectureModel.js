@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-const Lecture=new mongoose.Schema({
+const lectureModel=new mongoose.Schema({
     courseId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Course",
@@ -35,11 +35,11 @@ const Lecture=new mongoose.Schema({
         type:String,
     },
     duration:{
-        type:Number,
+        type:String,
         default:0,
     },
     isPreview:{
-        type:Boolean,
+        type:String,
         default:false,
     },
     order:{
@@ -48,3 +48,6 @@ const Lecture=new mongoose.Schema({
     },
 
 });
+
+const Lecture=mongoose.model("Lecture", lectureModel);
+export default Lecture;

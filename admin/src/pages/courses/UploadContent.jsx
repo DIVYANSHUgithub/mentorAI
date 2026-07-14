@@ -49,6 +49,7 @@ export default function UploadContentPage() {
   const [isPreview, setIsPreview] = useState(false);
   const [file, setFile] = useState(null);
   const [success, setSuccess] = useState('');
+  const [fileInfo, setFileInfo]=useState();
 
   const loadCourse=async ()=>{
     try{
@@ -70,9 +71,12 @@ export default function UploadContentPage() {
   useEffect(()=>{
     loadCourse()
   },[courseId])
+
+
   const handleFile = (f) => {
     if (!f) return;
-    setFile({
+    setFile(f);
+    setFileInfo({
       name: f.name,
       size: `${(f.size / (1024 * 1024)).toFixed(1)} MB`,
     });
@@ -87,22 +91,33 @@ export default function UploadContentPage() {
       setError('Content title is required');
       return;
     }
-    
-
-    setSaving(true);
-    setError('');
+    if(!file){
+      setError('Content file is required');
+      return;
+    }
 
     try {
 
-      setCourse(updated);
+
+      const formData=new FormData();
+      formData.append('title', title)
+      formData.append('courseId', courseId)
+      formData.append('sectionId', sectionId)
+      formData.append('description', description)
+      formData.append('contentType', contentType)
+      formData.append('duration', duration)
+      formData.append('isPreview', isPreview)
+      formData.append('file', file)
+      
+
+      const response=await axios.post(`http://localhost:9000/courses/${courseId}/sections/${sectionId}/upload`, formData)
+
+      setCourse(response.data.lecture);
       setTitle('');
       setDescription('');
       setDuration('');
       setFile(null);
       setSuccess('Content saved successfully.');
-
-      const formData=new FormData();
-      formData.append('title', form.title)
 
     } catch (err) {
       setError(err.message);
@@ -319,8 +334,8 @@ export default function UploadContentPage() {
             </div>
             {file && (
               <div className="mt-4 p-3 rounded-lg bg-slate-50 border border-slate-100">
-                <p className="text-sm font-medium text-slate-800 truncate">{file.name}</p>
-                <p className="text-xs text-slate-400">{file.size}</p>
+                <p className="text-sm font-medium text-slate-800 truncate">{fileInfo.name}</p>
+                <p className="text-xs text-slate-400">{fileInfo.size}</p>
               </div>
             )}
           </div>
