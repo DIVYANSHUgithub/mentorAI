@@ -11,9 +11,8 @@ import ProtectedRoute from './ProtectedRoute';
 import { DarkThemeProvider } from './components/DarkThemeProvider';
 import EduAIAssistant from './components/eduaiAssistant';
 import OfferedCourses from './components/Course/OfferedCourses';
-import BatchLearn from './components/Course/BatchLearn';
-import CourseDetail from './components/Course/CourseDetail';
-
+import CourseDetails from './components/Course/CourseDetail';
+import VideoPlayer from './components/Course/VideoPlayer';
 
 
 function App() {
@@ -54,8 +53,21 @@ function App() {
                 <div className="min-h-screen bg-gray-50 p-4 dark:bg-gray-900 sm:p-6">
                       <OfferedCourses showDashboardBack />
                 </div>}/>
-          <Route path="/courses/:id/learn" element={<ProtectedRoute><BatchLearn /></ProtectedRoute>} />
-          <Route path="/courses/:id" element={<ProtectedRoute><CourseDetail /></ProtectedRoute>} />
+
+          <Route
+              path="/course/:id"
+              element={
+                <CourseDetails/>
+              }
+              />
+          <Route
+            path="/learn/:courseId/:lectureId"
+            element={
+              <VideoPlayer/>
+            }
+          />
+          {/* <Route path="/courses/:id/learn" element={<ProtectedRoute><BatchLearn /></ProtectedRoute>} /> */}
+          {/* <Route path="/courses/:id" element={<ProtectedRoute><CourseDetail /></ProtectedRoute>} /> */}
           <Route
             path="/community"
             element={

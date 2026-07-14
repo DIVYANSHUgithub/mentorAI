@@ -31,6 +31,7 @@ import Course from './model/courseModel.js';
 import Section from './model/sectionModel.js';
 import axios from 'axios';
 import Lecture from './model/lectureModel.js';
+import { TIMEOUT } from 'node:dns';
 
 
 dotenv.config();
@@ -195,7 +196,8 @@ app.post('/courses/:courseId/sections', async(req, res)=>{
             message:'Section created successfully',
             course: {
               ...course,
-              sections
+              sections,
+
             }
         })
     }
@@ -299,18 +301,45 @@ app.get("/courses/:courseId",async(req,res)=>{
   const sections = await Section.find({
       courseId: courseId,
     }).lean();
+    const sectionsWithLectures = await Promise.all(
+    sections.map(async(section)=>{
+        const lectures = await Lecture.find({
+            sectionId: section._id
+        }).lean();
+        return {
+            ...section,
+            lectures
+        };
+    })
+);
 
   if(!course)
     return res.status(404).json({
     message:"Course not found"
   });
+   // 1. Fetch courses from MongoDB
+        
+      // 2. Generate temporary signed URL for each thumbnail
+          const command = new GetObjectCommand({
+            Bucket: process.env.AWS_S3_BUCKET_NAME,
+            Key: course.thumbnailKey,
+          });
+  
+          const thumbnailUrl = await getSignedUrl(
+            s3,
+            command,
+            {
+              expiresIn: 60 * 60,
+            }
+          );
 
   
 
   res.send({
     course: {
       ...course,
-      sections
+      sections: sectionsWithLectures,
+      thumbnailUrl
     }
   });
 });
@@ -444,8 +473,18 @@ app.post(`/courses/:courseId/sections/:sectionId/upload`,lectureUpload.single("f
       ContentType: req.file.mimetype
 
     })
+     await s3.send(uploadCommand)
 
-    await s3.send(uploadCommand)
+    // const command = new GetObjectCommand({
+    //         Bucket: process.env.AWS_S3_BUCKET_NAME,
+    //         Key: fileKey,
+    //       });
+    // const signedFileUrl= await getSignedUrl(s3,
+    //   command,
+    //   {
+    //     expiresIn: 60*60
+    //   }
+    // )
     const lecture= await Lecture.create({
       courseId,
       sectionId,
@@ -457,7 +496,6 @@ app.post(`/courses/:courseId/sections/:sectionId/upload`,lectureUpload.single("f
       order,
       fileUrl: fileKey
     })
-
     
     return res.status(201).json({
       success:true,
@@ -473,6 +511,85 @@ app.post(`/courses/:courseId/sections/:sectionId/upload`,lectureUpload.single("f
     });
   }
 });
+
+// -------------------------
+// handle fetching lecture
+// -------------------------
+
+app.get("/courses/:courseId/:lectureId", async (req, res) => {
+  try {
+    const { courseId , lectureId} = req.params;
+    const course = await Course.findById(courseId).lean();
+    if (!course) {
+      return res.status(404).json({
+        message: "Course not found"
+      });
+    }
+    const sections = await Section.find({
+      courseId
+    }).lean();
+    const sectionsWithLectures = await Promise.all(
+      sections.map(async (section) => {
+        const lectures = await Lecture.find({
+          sectionId: section._id
+        }).lean();
+
+        const lecturesWithUrls = await Promise.all(
+
+          lectures.map(async (lecture) => {
+
+            const command = new GetObjectCommand({
+              Bucket: process.env.AWS_S3_BUCKET_NAME,
+              Key: lecture.fileUrl,
+            });
+
+            const videoUrl = await getSignedUrl(
+              s3,
+              command,
+              {
+                expiresIn: 60 * 60,
+              }
+            );
+
+            return {
+              ...lecture,
+              videoUrl,
+            };
+          })
+
+        );
+        
+        return {
+          ...section,
+          lectures: lecturesWithUrls
+        };
+      })
+    );
+    const lectureExists = sectionsWithLectures.some(section =>
+        section.lectures.some(
+          lecture => lecture._id.toString() === lectureId
+        )
+      );
+
+      if (!lectureExists) {
+        return res.status(404).json({
+          message: "Lecture not found in this course"
+        });
+      }
+    res.json({
+      course: {
+        ...course,
+        sections: sectionsWithLectures
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: err.message
+    });
+  }
+});
+
 
 // -------------------------
 // Start server

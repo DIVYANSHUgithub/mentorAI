@@ -177,11 +177,11 @@ export default function OfferedCourses() {
         .float-slow { animation: float-slow 5s ease-in-out infinite; }
       `}</style>
 
-      {/* ========================= HERO / "NOTICE BOARD" ========================= */}
+      {/*========================= HERO / "NOTICE BOARD" =========================
       <div className="bg-gray-50 p-4 dark:bg-gray-900">
 
         <section
-          className="relative overflow-hidden rounded-[36px] border shadow-2xl"
+          className=" relative overflow-hidden rounded-[19px] border shadow-2xl"
           style={{
             background: PALETTE.ink,
             borderColor: "rgba(255,255,255,.08)"
@@ -198,7 +198,7 @@ export default function OfferedCourses() {
         />
         <div className="relative mx-auto max-w-7xl px-6 py-8 lg:py-14">
           <div className="grid gap-14 lg:grid-cols-[1.1fr,0.9fr] lg:items-center">
-            {/* Left: headline */}
+            {/* Left: headline }
             <div>
               <span
                 className="font-mono inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-medium tracking-[0.2em] uppercase"
@@ -229,7 +229,7 @@ export default function OfferedCourses() {
               </div>
             </div>
 
-            {/* Right: stacked "admit card" motif */}
+            {/* Right: stacked "admit card" motif }
             <div className="relative hidden h-80 lg:block">
               <div
                 className="float-slow absolute right-8 top-2 w-64 rounded-2xl border bg-white/95 p-5 shadow-2xl"
@@ -321,7 +321,7 @@ export default function OfferedCourses() {
               <CourseTicket
                 key={course._id}
                 course={course}
-                onExplore={() => navigate(`/courses/${course._id}`)}
+                onExplore={() => navigate(`/course/${course._id}`)}
                 onBuy={() => navigate(`/checkout/${course._id}`)}
               />
             ))}
@@ -331,12 +331,12 @@ export default function OfferedCourses() {
 
       {/* ========================= FOOTER ========================= */}
       <footer style={{ background: PALETTE.ink }}>
-        <div className="mx-auto max-w-7xl px-6 py-16">
+        <div className="mx-auto max-w-7xl px-6 py-5 rounded-lg">
           <div className="grid gap-12 md:grid-cols-4">
             <div>
               <div className="flex items-center gap-3">
                 <div
-                  className="flex h-11 w-11 items-center justify-center rounded-xl"
+                  className="flex h-6 w-5 items-center justify-center rounded-xl"
                   style={{ background: PALETTE.amber }}
                 >
                   <GraduationCap size={22} color={PALETTE.ink} />
