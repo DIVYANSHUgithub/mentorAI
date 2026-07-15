@@ -78,6 +78,7 @@ export default function CreateCoursePage(){
 
 
   const loadCourse=async ()=>{
+    if(!courseId){return}
     try{
       setLoading(true);
     const response=await axios.get(`http://localhost:9000/courses/${courseId}`)

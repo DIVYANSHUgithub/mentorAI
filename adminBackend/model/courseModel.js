@@ -29,7 +29,7 @@ import mongoose from "mongoose";
     level:{ 
         type:String, 
         enum:["beginner",
-            "bntermediate",
+            "intermediate",
             "advanced", 
             "all levels"], 
          
