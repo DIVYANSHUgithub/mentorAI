@@ -24,6 +24,7 @@ import {
   S3Client,
   PutObjectCommand,
   GetObjectCommand,
+  DeleteObjectCommand,
 } from '@aws-sdk/client-s3';
 
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
@@ -177,7 +178,6 @@ app.post(
     }
   }
 );
-
 app.post('/courses/:courseId/sections', async(req, res)=>{
     try{
         const createSection=await Section.create({
@@ -211,9 +211,10 @@ app.post('/courses/:courseId/sections', async(req, res)=>{
 })
 
 
-//-------------------------
-// Delete Courses
-//-------------------------
+//-----------------------------
+// Delete Course by course Id
+//-----------------------------
+// Delete Course Thumbnail from S3 -> Find all Sections -> Find all Lectures ->Delete Lecture Videos from S3 -> Delete Lecture documents -> Delete Sections -> Delete Course document
 app.delete('/courses/:courseId', async(req, res)=>{
   const course=await Course.findById(req.params.courseId).lean();
   if(!course){
@@ -221,10 +222,39 @@ app.delete('/courses/:courseId', async(req, res)=>{
       message:"course not found"
     })
   }
-  await Course.findByIdAndDelete(req.params.courseId);
+  const lectures=await Lecture.find({
+    courseId: req.params.courseId
+  })
+  for(const lecture of lectures)
+  {
+    if(lecture.fileKey){
+      const deleteCommand=new DeleteObjectCommand({
+        Bucket: process.env.AWS_S3_BUCKET_NAME,
+        Key: lecture.fileKey,
+      })
+      await s3.send(deleteCommand);
+    }
+  }
+  await Lecture.deleteMany({
+    courseId: req.params.courseId
+  })
+
+  //delete sections related to course
   await Section.deleteMany({
     courseId:req.params.courseId
   })
+  // delete course
+  if(course.thumbnailKey)
+  {
+    const deleteCommand=new DeleteObjectCommand({
+    Bucket: process.env.AWS_S3_BUCKET_NAME,
+    Key: course.thumbnailKey,
+  })
+    await s3.send(deleteCommand)
+  }
+  await Course.findByIdAndDelete(req.params.courseId);
+
+
   const updatedCourse=await Course.find().lean();
   res.send({
     message:"course deleted successfully",
@@ -475,16 +505,7 @@ app.post(`/courses/:courseId/sections/:sectionId/upload`,lectureUpload.single("f
     })
      await s3.send(uploadCommand)
 
-    // const command = new GetObjectCommand({
-    //         Bucket: process.env.AWS_S3_BUCKET_NAME,
-    //         Key: fileKey,
-    //       });
-    // const signedFileUrl= await getSignedUrl(s3,
-    //   command,
-    //   {
-    //     expiresIn: 60*60
-    //   }
-    // )
+    
     const lecture= await Lecture.create({
       courseId,
       sectionId,
