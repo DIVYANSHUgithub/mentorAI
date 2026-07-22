@@ -36,6 +36,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+          <Route path="/home/:userId" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
           
           <Route
             path="/progress"

@@ -5,8 +5,8 @@ import {
   FaBook, 
   FaTrophy, 
   FaUsers, 
-  FaRobot, 
-  FaCog, 
+  FaRobot,
+  FaCog,
   FaSignOutAlt
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
@@ -25,7 +25,7 @@ function Sidebar({
     { id: 'settings', label: 'Settings', icon: FaCog }
   ];
   const navigate=useNavigate();
-
+  
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('loggedInUser');
@@ -51,7 +51,7 @@ function Sidebar({
                 }
                 else if(item.id==='courses')
                 {
-                  navigate('/courses');
+                  navigate(`/courses`);
                 }
                 else
                   setActiveTab(item.id);

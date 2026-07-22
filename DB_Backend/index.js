@@ -5,8 +5,7 @@ const app=express();
 const bodyParser=require('body-parser');
 const cors=require('cors');
 const AuthRouter=require('./Routes/AuthRouter');
-const ProductRouter=require('./Routes/ProductRouter');
-const CourseRouter=require('./Routes/CourseRouter');
+
 
 require('dotenv').config();
 require('./Models/db');
@@ -18,7 +17,7 @@ app.get('/ping', (req,res)=>{
 })
 
 /* jo post ke andar request body hoti hai (username, password, email) jo hum client 
-    se lene wale hain uske liye ye bodyParser ek library hai usko midde ware mein connect karna jaroori hai*/
+    se lene wale hain uske liye ye bodyParser ek library hai usko middle ware mein connect karna jaroori hai*/
 /* uske liye hum likhenge */
 
 app.use(bodyParser.json());
@@ -34,8 +33,6 @@ app.use(cors());
  */
 
 app.use('/auth',AuthRouter);
-app.use('/products',ProductRouter);
-app.use('/courses',CourseRouter);
 
 
 const server = app.listen(PORT, ()=> {

@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import {  useState } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import {ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -16,7 +16,6 @@ const Login = () => {
         copyLoginInfo[name]=value;
         setLoginInfo(copyLoginInfo)
     }
-
     const handleLogin=async (e)=>{
         e.preventDefault();
         const {email, password}=loginInfo;
@@ -44,7 +43,7 @@ const Login = () => {
                 localStorage.setItem('userMail', email);
                 localStorage.setItem('isLoggedIn', 'true');
                 setTimeout(()=>{
-                    navigate('/home')
+                    navigate(`/home/${result.user._id}`)
                 }, 1000)
             }
             else if(error){

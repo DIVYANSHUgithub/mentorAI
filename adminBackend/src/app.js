@@ -4,6 +4,7 @@ import { errorHandler, notFoundHandler } from './middlewares/error.middleware.js
 import courseRoutes from './routes/course.routes.js';
 import lectureRoutes from './routes/lecture.routes.js';
 import sectionRoutes from './routes/section.routes.js';
+import authRoutes from './routes/authRouter.js';
 
 const app = express();
 
@@ -13,7 +14,8 @@ app.use(express.json());
 app.use('/courses', courseRoutes);
 app.use('/courses/:courseId/sections', sectionRoutes);
 app.use('/courses', lectureRoutes);
-
+app.use("/payments", paymentRoutes);
+app.use('/auth', authRoutes);
 app.use(notFoundHandler);
 app.use(errorHandler);
 

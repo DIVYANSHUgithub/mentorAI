@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-const enrollment = new mongoose.Schema({
+const enrollmentModel = new mongoose.Schema({
     studentId:{
         type: mongoose.Schema.Types.ObjectId,
         ref:"User",
@@ -24,3 +24,6 @@ const enrollment = new mongoose.Schema({
 },{
     timestamps:true
 });
+
+const Enrollment=mongoose.model("enrollment", enrollmentModel);
+export default Enrollement

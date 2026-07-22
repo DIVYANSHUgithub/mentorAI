@@ -177,7 +177,7 @@ function HomePage() {
           />
         );
       case 'courses':
-        return <OfferedCourses />;
+        return <OfferedCourses  />;
       case 'community':
         return <CommunitySection />;
       case 'settings':

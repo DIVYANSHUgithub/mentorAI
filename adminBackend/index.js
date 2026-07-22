@@ -533,6 +533,7 @@ app.post(`/courses/:courseId/sections/:sectionId/upload`,lectureUpload.single("f
   }
 });
 
+
 // -------------------------
 // handle fetching lecture
 // -------------------------

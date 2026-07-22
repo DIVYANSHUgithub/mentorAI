@@ -12,7 +12,6 @@ export const thumbnailUpload = multer({
       callback(new Error('Only image files are allowed'));
       return;
     }
-
     callback(null, true);
   },
 });
