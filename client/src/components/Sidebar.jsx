@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Sidebar({ 
   activeTab, 
-  setActiveTab, 
+  setActiveTab,
   sidebarCollapsed
 }) {
   const navItems = [
@@ -21,11 +21,11 @@ function Sidebar({
     { id: 'courses', label: 'Courses', icon: FaBook },
     { id: 'progress', label: 'Progress', icon: FaTrophy },
     { id: 'community', label: 'Community', icon: FaUsers },
-    { id: 'ai-chat', label: 'AI Assistant', icon: FaRobot },
+    { id: 'ai-assistant', label: 'AI Assistant', icon: FaRobot },
     { id: 'settings', label: 'Settings', icon: FaCog }
   ];
   const navigate=useNavigate();
-  
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('loggedInUser');
@@ -46,14 +46,6 @@ function Sidebar({
               whileHover={{ scale: 1.02, x: 4 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => {
-                if(item.id==='ai-chat'){
-                navigate('/ai-assistant');
-                }
-                else if(item.id==='courses')
-                {
-                  navigate(`/courses`);
-                }
-                else
                   setActiveTab(item.id);
               }}
               className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${

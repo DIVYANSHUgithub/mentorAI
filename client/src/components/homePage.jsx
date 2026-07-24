@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import DashboardSection from './DashboardSection';
@@ -8,6 +8,7 @@ import ProgressSection from './ProgressSection';
 import CommunitySection from './CommunitySection';
 import SettingsSection from './SettingsSection';
 import OfferedCourses from './Course/OfferedCourses';
+import EduAIAssistant from './eduaiAssistant';
 
 function HomePage() {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ function HomePage() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [searchQuery, setSearchQuery] = useState('');
   const [sidebarCollapsed] = useState(false);
-  
+  const {userId}=useParams();
 
   // Mock user data
   useEffect(() => {
@@ -24,69 +25,6 @@ function HomePage() {
   }, []);
 
   // Mock course data
-  const courses = [
-    {
-      id: 1,
-      title: "Machine Learning Fundamentals",
-      instructor: "Dr. Sarah Chen",
-      duration: "8 weeks",
-      level: "Beginner",
-      rating: 4.8,
-      students: 12450,
-      thumbnail: "https://img.youtube.com/vi/8jLoIO9DgQk/maxresdefault.jpg",
-      progress: 65,
-      category: "AI & ML",
-      price: "$99",
-      isFeatured: true,
-      tags: ["Python", "TensorFlow", "Neural Networks"]
-    },
-    {
-      id: 2,
-      title: "React.js Complete Guide",
-      instructor: "Mike Johnson",
-      duration: "6 weeks",
-      level: "Intermediate",
-      rating: 4.9,
-      students: 18920,
-      thumbnail: "https://img.youtube.com/vi/Ke90Tje7VS0/maxresdefault.jpg",
-      progress: 0,
-      category: "Web Development",
-      price: "$79",
-      isFeatured: true,
-      tags: ["JavaScript", "React", "Frontend"]
-    },
-    {
-      id: 3,
-      title: "Python for Data Science",
-      instructor: "Emily Rodriguez",
-      duration: "10 weeks",
-      level: "Beginner",
-      rating: 4.7,
-      students: 15680,
-      thumbnail: "https://img.youtube.com/vi/rfscVS0vtbw/maxresdefault.jpg",
-      progress: 30,
-      category: "Data Science",
-      price: "$89",
-      isFeatured: false,
-      tags: ["Python", "Pandas", "Matplotlib"]
-    },
-    {
-      id: 4,
-      title: "Advanced JavaScript Concepts",
-      instructor: "Alex Thompson",
-      duration: "4 weeks",
-      level: "Advanced",
-      rating: 4.6,
-      students: 8920,
-      thumbnail: "https://img.youtube.com/vi/916GWv2Qs08/maxresdefault.jpg",
-      progress: 0,
-      category: "Programming",
-      price: "$69",
-      isFeatured: false,
-      tags: ["JavaScript", "ES6+", "Async/Await"]
-    },
-  ];
-
   const notifications = [
     {
       id: 1,
@@ -172,14 +110,16 @@ function HomePage() {
         return (
           <ProgressSection
             stats={stats}
-            courses={courses}
+            
             recentActivities={recentActivities}
           />
         );
       case 'courses':
-        return <OfferedCourses  />;
+        return <OfferedCourses  userId/>;
       case 'community':
         return <CommunitySection />;
+      case 'ai-assistant':
+        return <EduAIAssistant/>
       case 'settings':
         return (
           <SettingsSection

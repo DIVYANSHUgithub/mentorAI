@@ -13,6 +13,7 @@ import EduAIAssistant from './components/eduaiAssistant';
 import OfferedCourses from './components/Course/OfferedCourses';
 import CourseDetails from './components/Course/CourseDetail';
 import VideoPlayer from './components/Course/VideoPlayer';
+import CheckoutPage from './components/checkoutPage';
 
 
 function App() {
@@ -48,17 +49,23 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route 
-              path="/courses" 
+          {/* <Route 
+              path="/courses/" 
               element={
                 <div className="min-h-screen bg-gray-50 p-4 dark:bg-gray-900 sm:p-6">
                       <OfferedCourses showDashboardBack />
-                </div>}/>
+                </div>}/> */}
 
           <Route
-              path="/course/:id"
+              path="/home/:userId/courses/course/:id"
               element={
                 <CourseDetails/>
+              }
+              />
+          <Route
+              path="/home/:userId/courses/course/:id/buy"
+              element={
+                <CheckoutPage/>
               }
               />
           <Route

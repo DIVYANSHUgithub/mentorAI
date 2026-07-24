@@ -15,7 +15,7 @@ import {
   FaUsers
 } from 'react-icons/fa';
 
-function ProgressSection({ stats, courses, recentActivities, showDashboardBack }) {
+function ProgressSection({ stats, recentActivities, showDashboardBack }) {
   return (
     <div className="space-y-6">
       {showDashboardBack && (
@@ -124,56 +124,6 @@ function ProgressSection({ stats, courses, recentActivities, showDashboardBack }
         >
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white">Active Courses</h2>
-            <span className="text-sm text-gray-500 dark:text-gray-400">{courses.filter(c => c.progress > 0).length} courses</span>
-          </div>
-          
-          <div className="space-y-4">
-            {courses.filter(course => course.progress > 0).map((course, index) => (
-              <motion.div
-                key={course.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="border border-gray-100 dark:border-gray-600 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-              >
-                <div className="flex items-center space-x-3 mb-3">
-                  <img
-                    src={course.thumbnail}
-                    alt={course.title}
-                    className="w-12 h-12 rounded-lg object-cover"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.nextSibling.style.display = 'flex';
-                    }}
-                  />
-                  <div className="w-12 h-12 bg-gray-200 dark:bg-gray-600 rounded-lg flex items-center justify-center" style={{display: 'none'}}>
-                    <FaVideo className="text-gray-500 dark:text-gray-400" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 dark:text-white text-sm">{course.title}</h3>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">{course.instructor}</p>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm font-bold text-gray-900 dark:text-white">{course.progress}%</div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">Complete</div>
-                  </div>
-                </div>
-                
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-2">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${course.progress}%` }}
-                    transition={{ delay: index * 0.1 + 0.3, duration: 1 }}
-                    className="h-2 rounded-full bg-blue-500"
-                  />
-                </div>
-                
-                <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-                  <span>{course.duration}</span>
-                  <span>{course.level}</span>
-                </div>
-              </motion.div>
-            ))}
           </div>
         </motion.div>
 

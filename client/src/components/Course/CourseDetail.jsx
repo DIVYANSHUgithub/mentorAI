@@ -504,7 +504,7 @@ export default function CourseDetails() {
                 </div>
 
                 <button
-                  onClick={() => navigate(`/buy/studentid/course/${course._id}`)}
+                  onClick={() => navigate(`./buy`)}
                   className="font-body mt-6 w-full rounded-lg py-3 text-sm font-semibold text-[#12213D] transition hover:brightness-95"
                   style={{ background: PALETTE.amber }}
                 >

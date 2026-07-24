@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const enrollmentSchema = new mongoose.Schema(
   {
-    studentId: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
@@ -21,6 +21,11 @@ const enrollmentSchema = new mongoose.Schema(
   {
     timestamps: true,
   }
+);
+
+enrollmentSchema.index(
+    { studentId: 1, courseId: 1 },
+    { unique: true }
 );
 
 const Enrollment = mongoose.model('Enrollment', enrollmentSchema);

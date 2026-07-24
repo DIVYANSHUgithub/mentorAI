@@ -81,5 +81,7 @@ import mongoose from "mongoose";
     } 
     },
     { timestamps:true }); 
-const Course=mongoose.model("Course", CourseModel); 
+const Course =
+  mongoose.models.Course || mongoose.model("Course", CourseModel);
+
 export default Course;

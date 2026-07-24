@@ -1,8 +1,9 @@
-const bcrypt=require('bcrypt');
-const jwt=require('jsonwebtoken');
-const UserModel=require("../Models/User");
+import bcrypt from 'bcrypt'
+import jwt from'jsonwebtoken';
+import UserModel from '../models/user.js';
 
-const signup=async(req,res)=>{
+
+export const signup=async(req,res)=>{
     // iske pahle humko server-side validation likhna padega, Why?
     try{
         const { name, email, password}=req.body;
@@ -27,20 +28,24 @@ const signup=async(req,res)=>{
  
     }
 }
-const login=async(req,res)=>{
+export const login=async(req,res)=>{
     // iske pahle humko server-side validation likhna padega, Why?
     try{
         const {email, password}=req.body;
+        
         const user=await UserModel.findOne({email});
         console.log(user)
+        console.log("user is:",user)
         const errMessage='Auth failed email or password is wrong';
         if(!user){
             return res.status(403)
                 .json({message:errMessage, success: false});
         }
         const isPassEqual=await bcrypt.compare(password,user.password);
+        console.log("is password equal? : ", isPassEqual)
         if(!isPassEqual)
         {
+            console.log("password is not equal")
             return res.status(403)
                 .json({message:errMessage, success: false});
         }
@@ -65,7 +70,6 @@ const login=async(req,res)=>{
             .json({message:"Internal Server Error",
                 success:false
             })
- 
     }
 }
 
@@ -78,9 +82,3 @@ const logout=async(req,res)=>{
 }
 
 
-module.exports={
-    signup,
-    login,
-    logout
-    
-}

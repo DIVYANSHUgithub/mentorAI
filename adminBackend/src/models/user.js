@@ -1,4 +1,4 @@
-const mongoose=require('mongoose');
+import mongoose from 'mongoose'
 const Schema=mongoose.Schema;
 
 const UserSchema=new Schema({
@@ -11,14 +11,10 @@ const UserSchema=new Schema({
         required:true,
         unique: true
     },
-    phoneNumber:{
-        type: Number.length(10),
-        unique: true,
-    },
     password:{
         type:String,
         required:true
     }
 });
 const UserModel=mongoose.model('users', UserSchema);
-module.exports=UserModel;
+export default UserModel;

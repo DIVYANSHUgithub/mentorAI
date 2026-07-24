@@ -69,11 +69,8 @@ import { useNavigate } from "react-router-dom";
 import {
   Search,
   BookOpen,
-  Users,
   IndianRupee,
-  ChevronRight,
   GraduationCap,
-  Layers,
   Check,
   RefreshCw,
 } from "lucide-react";
@@ -108,7 +105,7 @@ function initials(name = "") {
   return name.trim().charAt(0).toUpperCase() || "?";
 }
 
-export default function OfferedCourses() {
+export default function OfferedCourses(userId) {
   const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -321,7 +318,7 @@ export default function OfferedCourses() {
               <CourseTicket
                 key={course._id}
                 course={course}
-                onExplore={() => navigate(`/course/${course._id}`)}
+                onExplore={() => navigate(`./courses/course/${course._id}`)}
                 onBuy={() => navigate(`/checkout/${course._id}`)}
               />
             ))}
@@ -398,17 +395,17 @@ export default function OfferedCourses() {
  * Sub-components
  * ===================================================================== */
 
-function StatChip({ icon, value, label }) {
-  return (
-    <div className="rounded-xl border bg-white/[0.04] px-4 py-3 backdrop-blur" style={{ borderColor: "rgba(255,255,255,0.12)" }}>
-      <div className="flex items-center gap-2" style={{ color: "#F2A93B" }}>
-        {icon}
-        <span className="font-mono text-lg font-semibold text-white">{value}</span>
-      </div>
-      <p className="font-body mt-1 text-[11px] uppercase tracking-wide text-white/40">{label}</p>
-    </div>
-  );
-}
+// function StatChip({ icon, value, label }) {
+//   return (
+//     <div className="rounded-xl border bg-white/[0.04] px-4 py-3 backdrop-blur" style={{ borderColor: "rgba(255,255,255,0.12)" }}>
+//       <div className="flex items-center gap-2" style={{ color: "#F2A93B" }}>
+//         {icon}
+//         <span className="font-mono text-lg font-semibold text-white">{value}</span>
+//       </div>
+//       <p className="font-body mt-1 text-[11px] uppercase tracking-wide text-white/40">{label}</p>
+//     </div>
+//   );
+// }
 
 function FooterColumn({ title, children }) {
   return (
