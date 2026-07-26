@@ -6,6 +6,7 @@ import lectureRoutes from './routes/lecture.routes.js';
 import sectionRoutes from './routes/section.routes.js';
 import authRoutes from './routes/authRouter.js';
 import PaymentRoute from './routes/payments.routes.js';
+import EnrollmentRoute from './routes/enrollment.routes.js';
 const app = express();
 
 app.use(cors());
@@ -15,6 +16,7 @@ app.use('/courses', courseRoutes);
 app.use('/courses/:courseId/sections', sectionRoutes);
 app.use('/courses', lectureRoutes);
 app.use("/payments", PaymentRoute);
+app.use("/enrollments", EnrollmentRoute)
 app.use('/auth', authRoutes);
 app.use(notFoundHandler);
 app.use(errorHandler);

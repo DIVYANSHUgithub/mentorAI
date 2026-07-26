@@ -479,7 +479,7 @@ function CourseTicket({ course, onExplore, onBuy }) {
           {course.title}
         </h3>
 
-        {course.subtitle && (
+        {/* {course.subtitle && (
           <p className="font-body mt-1.5 text-xs font-medium uppercase tracking-wide text-slate-400 line-clamp-1">
             {course.subtitle}
           </p>
@@ -511,7 +511,7 @@ function CourseTicket({ course, onExplore, onBuy }) {
               </div>
             ))}
           </div>
-        )}
+        )} */}
 
         <div className="flex-1" />
 
@@ -543,13 +543,6 @@ function CourseTicket({ course, onExplore, onBuy }) {
               style={{ borderColor: PALETTE.ink, color: PALETTE.ink }}
             >
               Explore
-            </button>
-            <button
-              onClick={onBuy}
-              className="font-body flex-1 rounded-lg py-2.5 text-sm font-semibold text-[#12213D] transition hover:brightness-95"
-              style={{ background: PALETTE.amber }}
-            >
-              {course.isFree ? "Enrol" : "Buy now"}
             </button>
           </div>
         </div>

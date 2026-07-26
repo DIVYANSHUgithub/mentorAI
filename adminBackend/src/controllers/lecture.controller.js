@@ -3,6 +3,7 @@ import {
   getCourseLectureView,
   uploadLecture,
 } from '../services/lecture.service.js';
+import Enrollment from '../models/enrollment.model.js';
 
 export const uploadLectureController = asyncHandler(async (req, res) => {
   const lecture = await uploadLecture(

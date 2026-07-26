@@ -9,7 +9,7 @@ import {
 } from '../controllers/course.controller.js';
 import { thumbnailUpload } from '../middlewares/upload.middleware.js';
 
-const router = Router();
+const router = Router();1
 
 router.post('/', thumbnailUpload.single('thumbnail'), createCourseController);
 router.delete('/:courseId', deleteCourseController);

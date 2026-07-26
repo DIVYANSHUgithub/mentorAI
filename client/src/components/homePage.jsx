@@ -9,6 +9,7 @@ import CommunitySection from './CommunitySection';
 import SettingsSection from './SettingsSection';
 import OfferedCourses from './Course/OfferedCourses';
 import EduAIAssistant from './eduaiAssistant';
+import MyLearningDashboard from './Course/MyLearning';
 
 function HomePage() {
   const navigate = useNavigate();
@@ -115,7 +116,9 @@ function HomePage() {
           />
         );
       case 'courses':
-        return <OfferedCourses  userId/>;
+        return <OfferedCourses userId/>;
+      case 'myLearning':
+        return <MyLearningDashboard/>;
       case 'community':
         return <CommunitySection />;
       case 'ai-assistant':

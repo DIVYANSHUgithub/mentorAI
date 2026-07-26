@@ -4,6 +4,8 @@ import {
   uploadLectureController,
 } from '../controllers/lecture.controller.js';
 import { lectureUpload } from '../middlewares/upload.middleware.js';
+import { ensureAuthenticated } from '../middlewares/Auth.js';
+import { isEnrolled } from '../middlewares/isEnrolled.js';
 
 const router = Router();
 
@@ -12,6 +14,6 @@ router.post(
   lectureUpload.single('file'),
   uploadLectureController
 );
-router.get('/:courseId/:lectureId', getLectureController);
+router.get('/:courseId/:lectureId',ensureAuthenticated, isEnrolled, getLectureController);
 
 export default router;

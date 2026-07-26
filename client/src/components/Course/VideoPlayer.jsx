@@ -26,6 +26,7 @@ import {
   BookOpen,
 } from "lucide-react";
 
+
 /**
  * VideoPlayer
  * ---------------------------------------------------------------------
@@ -100,7 +101,15 @@ export default function VideoPlayer() {
     try {
       setLoading(true);
       setError("");
-      const response = await axios.get(`http://localhost:9000/courses/${courseId}/${lectureId}`);
+      const token = localStorage.getItem("token");
+      const response = await axios.get(`http://localhost:9000/courses/${courseId}/${lectureId}`,{
+        headers: {
+            Authorization: token
+        }
+      });
+      if(response.status===false){
+
+      }
       setCourse(response.data.course);
     } catch (err) {
       setError(

@@ -7,7 +7,8 @@ import {
   FaUsers, 
   FaRobot,
   FaCog,
-  FaSignOutAlt
+  FaSignOutAlt,
+  FaBookmark
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,6 +20,7 @@ function Sidebar({
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: FaChartLine },
     { id: 'courses', label: 'Courses', icon: FaBook },
+    { id: 'myLearning', label: 'My Learning', icon: FaBookmark},
     { id: 'progress', label: 'Progress', icon: FaTrophy },
     { id: 'community', label: 'Community', icon: FaUsers },
     { id: 'ai-assistant', label: 'AI Assistant', icon: FaRobot },

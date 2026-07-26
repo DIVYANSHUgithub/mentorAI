@@ -74,6 +74,7 @@ export default function CourseDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [course, setCourse] = useState(null);
+  const [isEnrolled, setIsEnrolled]=useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("description");
@@ -82,6 +83,7 @@ export default function CourseDetails() {
 
   useEffect(() => {
     fetchCourse();
+    console.log("is enrolled status : ",isEnrolled)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseId]);
 
@@ -90,6 +92,18 @@ export default function CourseDetails() {
       setLoading(true);
       setError("");
       const response = await axios.get(`http://localhost:9000/courses/${courseId}`);
+      const token = localStorage.getItem("token");
+
+      const enrolledStatus = await axios.get(
+          `http://localhost:9000/enrollments/${courseId}/status`,
+          {
+              headers: {
+                  Authorization: token
+              }
+          }
+      );
+      setIsEnrolled(enrolledStatus.data.isEnrolled);
+      
       console.log(response.data);
       setCourse(response.data.course);
       // Open the first section by default once data arrives
@@ -133,6 +147,7 @@ export default function CourseDetails() {
   if (loading) return <DetailSkeleton />;
   if (error) return <DetailError message={error} onRetry={fetchCourse} onBack={() => navigate(-1)} />;
   if (!course) return null;
+
 
   const publishDate = formatDate(course.publishDate);
 
@@ -503,13 +518,25 @@ export default function CourseDetails() {
                   )}
                 </div>
 
-                <button
-                  onClick={() => navigate(`./buy`)}
-                  className="font-body mt-6 w-full rounded-lg py-3 text-sm font-semibold text-[#12213D] transition hover:brightness-95"
-                  style={{ background: PALETTE.amber }}
-                >
-                  {course.isFree ? "Enrol now" : "Buy now"}
-                </button>
+                
+                {isEnrolled ? (
+                    <button
+                     onClick={() => {
+                          const firstLecture = course.sections?.[0]?.lectures?.[0];
+
+                          if (firstLecture) {
+                              navigate(`/learn/${course._id}/${firstLecture._id}`);
+                          }
+                      }}
+                    className="font-body mt-6 w-full rounded-lg py-3 text-sm font-semibold text-[#12213D] transition hover:brightness-95"
+                    style={{ background: PALETTE.amber }}>Study Now</button>
+                ) : (
+                    <button
+                      onClick={() => navigate(`./buy`)}
+                      className="font-body mt-6 w-full rounded-lg py-3 text-sm font-semibold text-[#12213D] transition hover:brightness-95"
+                      style={{ background: PALETTE.amber }}>
+                        Buy Now</button>
+                )}
 
                 <button
                   className="font-body mt-3 flex w-full items-center justify-center gap-2 rounded-lg border py-3 text-sm font-semibold transition hover:bg-slate-50"
