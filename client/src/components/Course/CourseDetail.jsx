@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import { apiClient } from '../../api/client';
 import { useNavigate, useParams } from "react-router-dom";
 import {
   ArrowLeft,
@@ -25,7 +25,7 @@ import {
  * Opens when a learner taps "Explore" on a course ticket. Same "admit
  * card" identity as OfferedCourses: ink navy + marigold, Fraunces /
  * IBM Plex type system, perforated ticket motif for the purchase panel.
- * Route: /courses/:id  →  GET http://localhost:9000/courses/:id
+ * Route: /courses/:id  →  GET ${import.meta.env.VITE_API_URL}/courses/:id
  * ---------------------------------------------------------------------
  */
 
@@ -91,16 +91,10 @@ export default function CourseDetails() {
     try {
       setLoading(true);
       setError("");
-      const response = await axios.get(`http://localhost:9000/courses/${courseId}`);
-      const token = localStorage.getItem("token");
+      const response = await apiClient.get(`/courses/${courseId}`);
 
-      const enrolledStatus = await axios.get(
-          `http://localhost:9000/enrollments/${courseId}/status`,
-          {
-              headers: {
-                  Authorization: token
-              }
-          }
+      const enrolledStatus = await apiClient.get(
+          `/enrollments/${courseId}/status`
       );
       setIsEnrolled(enrolledStatus.data.isEnrolled);
       

@@ -29,7 +29,7 @@ export default function PublishCoursePage() {
   const loadCourse=async ()=>{
     try{
       setLoading(true);
-    const response=await axios.get(`http://localhost:9000/courses/${courseId}`)
+    const response=await axios.get(`${import.meta.env.VITE_API_URL}/courses/${courseId}`)
     setCourse(response.data.course)
     return response
   }catch(error){
@@ -49,7 +49,7 @@ export default function PublishCoursePage() {
   const handlePublish = async () => {
     setPublishing(true);
     setError('');
-    const updated=await axios.post(`http://localhost:9000/courses/${courseId}/publish`)
+    const updated=await axios.post(`${import.meta.env.VITE_API_URL}/courses/${courseId}/publish`)
     setCourse(updated.data.course)
     setPublishing(false)
     navigate(`/courses`)

@@ -10,8 +10,8 @@ import {
   Star,
   MessageCircle,
 } from "lucide-react";
-import { Await, Navigate, useParams } from "react-router-dom";
-import axios from "axios";
+import { useParams } from "react-router-dom";
+import { apiClient } from "../api/client";
 
 /**
  * EduAI Checkout Page
@@ -63,7 +63,7 @@ function CheckoutPage() {
   const [coupon, setCoupon] = useState("");
   const [course, setCourse]=useState();
   const fetchCourse=async ()=>{
-    const response=await axios.get(`http://localhost:9000/courses/${courseId}`);
+    const response=await apiClient.get(`/courses/${courseId}`);
     setCourse(response.data)
 
   }
@@ -72,7 +72,7 @@ function CheckoutPage() {
   },[courseId])
   const handleProceedToPayment=async ()=>{
     try{
-      const proceedPayment=await axios.post(`http://localhost:9000/payments/create-order`,{
+      const proceedPayment=await apiClient.post('/payments/create-order',{
         courseId
       })
       const {orderId, amount, currency, key}=proceedPayment.data
@@ -84,8 +84,8 @@ function CheckoutPage() {
         name:"eduai",
         description:"course purchase",
         handler : async function (response) {
-          const verifyResponse = await axios.post(
-          "http://localhost:9000/payments/verify",
+          const verifyResponse = await apiClient.post(
+          '/payments/verify',
           {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
@@ -104,9 +104,8 @@ function CheckoutPage() {
         },
 
         prefill: {
-            name: "Divyanshu Mishra",
-            email: "test@example.com",
-            contact: "9454528806"
+            name: localStorage.getItem('loggedInUser') || '',
+            email: localStorage.getItem('userMail') || '',
         }
 
       }

@@ -43,7 +43,7 @@ export default function SectionsPage() {
   const loadCourse=async ()=>{
     try{
       setLoading(true);
-    const response=await axios.get(`http://localhost:9000/courses/${courseId}`)
+    const response=await axios.get(`${import.meta.env.VITE_API_URL}/courses/${courseId}`)
     setCourse(response.data.course)
     setActiveCourseId(courseId);
     setOrder(String((response.data.course?.sections?.length || 0) + 1));
@@ -77,7 +77,7 @@ export default function SectionsPage() {
     setError('')
 
     try{
-      const addSection=await axios.post(`http://localhost:9000/courses/${courseId}/sections`,{
+      const addSection=await axios.post(`${import.meta.env.VITE_API_URL}/courses/${courseId}/sections`,{
         title: title.trim(),
         description: description.trim(),
       })
@@ -100,7 +100,7 @@ export default function SectionsPage() {
     if(!confirm('Delete this section?'))
       return;
     try{
-      const updated=await axios.delete(`http://localhost:9000/courses/${courseId}/sections/${sectionId}`)
+      const updated=await axios.delete(`${import.meta.env.VITE_API_URL}/courses/${courseId}/sections/${sectionId}`)
       setCourse(updated.data.course);
     }catch(error){
       setError(error.message)

@@ -64,7 +64,7 @@
 // export default OfferedCourses;
 
 import React, { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import { apiClient } from '../../api/client';
 import { useNavigate } from "react-router-dom";
 import {
   Search,
@@ -121,7 +121,7 @@ export default function OfferedCourses(userId) {
     try {
       setLoading(true);
       setError("");
-      const response = await axios.get("http://localhost:9000/courses");
+      const response = await apiClient.get('/courses');
       setCourses(response.data.courses || []);
     } catch (err) {
       setError(

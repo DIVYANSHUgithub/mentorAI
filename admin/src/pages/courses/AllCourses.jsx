@@ -38,7 +38,7 @@ export default function AllCoursesPage() {
     if (search) params.search = search;
     if (statusFilter) params.status = statusFilter;
     if (categoryFilter) params.category = categoryFilter;
-    const courses=await axios.get('http://localhost:9000/courses')
+    const courses=await axios.get(`${import.meta.env.VITE_API_URL}/courses`)
     setCourses(courses.data.courses)
     setLoading(false)
     return courses;
@@ -74,7 +74,7 @@ export default function AllCoursesPage() {
     console.log(courseId)
     if (!confirm('Delete this course? This cannot be undone.')) return;
 
-    const updated=await axios.delete(`http://localhost:9000/courses/${courseId}`)
+    const updated=await axios.delete(`${import.meta.env.VITE_API_URL}/courses/${courseId}`)
     setCourses(updated.data.course)
 
   };

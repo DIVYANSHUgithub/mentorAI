@@ -11,7 +11,7 @@ export default function DashboardPage() {
 
   const loadCourse=async ()=>{
     setLoading(true)
-    const response=await axios.get(`http://localhost:9000/courses`)
+    const response=await axios.get(`${import.meta.env.VITE_API_URL}/courses`)
     setRecentCourses(response.data.courses)
     setLoading(false)
     return response;

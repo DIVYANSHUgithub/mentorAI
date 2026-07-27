@@ -1,5 +1,5 @@
-
-import {  useState } from 'react'
+import { useState } from 'react';
+import { API_URL } from '../config/env';
 import {Link, useNavigate} from 'react-router-dom'
 import {ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -23,8 +23,11 @@ const Login = () => {
         {
             return handleError('email and password must required')
         }
+        if (!API_URL) {
+            return handleError('Server URL is not configured. Contact support.');
+        }
         try{
-            const url="http://localhost:9000/auth/login";
+            const url=`${API_URL}/auth/login`;
             const response=await fetch(url,{
                 method:"POST",
                 headers: {

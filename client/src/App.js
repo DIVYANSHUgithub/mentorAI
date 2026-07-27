@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
 import Signup from './components/signup';
-import Login from './components//login';
+import Login from './components/login';
 import HomePage from './components/homePage';
 import ProgressSection from './components/ProgressSection';
 import CommunitySection from './components/CommunitySection';
@@ -10,7 +10,6 @@ import SettingsSection from './components/SettingsSection';
 import ProtectedRoute from './ProtectedRoute';
 import { DarkThemeProvider } from './components/DarkThemeProvider';
 import EduAIAssistant from './components/eduaiAssistant';
-import OfferedCourses from './components/Course/OfferedCourses';
 import CourseDetails from './components/Course/CourseDetail';
 import VideoPlayer from './components/Course/VideoPlayer';
 import CheckoutPage from './components/checkoutPage';
@@ -59,19 +58,19 @@ function App() {
           <Route
               path="/home/:userId/courses/course/:id"
               element={
-                <CourseDetails/>
+                <ProtectedRoute><CourseDetails/></ProtectedRoute>
               }
               />
           <Route
               path="/home/:userId/courses/course/:id/buy"
               element={
-                <CheckoutPage/>
+                <ProtectedRoute><CheckoutPage/></ProtectedRoute>
               }
               />
           <Route
             path="/learn/:courseId/:lectureId"
             element={
-              <VideoPlayer/>
+              <ProtectedRoute><VideoPlayer/></ProtectedRoute>
             }
           />
           {/* <Route path="/courses/:id/learn" element={<ProtectedRoute><BatchLearn /></ProtectedRoute>} /> */}

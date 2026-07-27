@@ -22,7 +22,7 @@ export default function PricingPage() {
   const loadCourse=async ()=>{
     try{
       setLoading(true);
-    const response=await axios.get(`http://localhost:9000/courses/${courseId}`)
+    const response=await axios.get(`${import.meta.env.VITE_API_URL}/courses/${courseId}`)
     setCourse(response.data.course)
     return response
   }catch(error){
@@ -44,7 +44,7 @@ export default function PricingPage() {
   const handleSave = async () => {
     setSaving(true);
     setError('');
-    const savePrice=await axios.post(`http://localhost:9000/courses/${courseId}/price`,{
+    const savePrice=await axios.post(`${import.meta.env.VITE_API_URL}/courses/${courseId}/price`,{
       price,
       originalPrice,
       isFree

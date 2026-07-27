@@ -9,8 +9,7 @@ import {
   FaChevronRight,
   FaStar
 } from 'react-icons/fa';
-import React, { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useMemo, useState } from "react";import { apiClient } from '../api/client';
 import { useNavigate } from "react-router-dom";
 import {
   Search,
@@ -95,7 +94,7 @@ function DashboardSection({ user, stats, recentActivities, searchQuery }) {
     try {
       setLoading(true);
       setError("");
-      const response = await axios.get("http://localhost:9000/courses");
+      const response = await apiClient.get('/courses');
       setCourses(response.data.courses || []);
     } catch (err) {
       setError(

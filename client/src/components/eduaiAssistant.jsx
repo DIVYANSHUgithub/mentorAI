@@ -1,3 +1,4 @@
+import { CHAT_API_URL } from '../config/env';
 import { useState, useEffect, useRef } from 'react';
 import PageBackNav from './PageBackNav';
 
@@ -28,7 +29,7 @@ function EduAIAssistant() {
     setLoading(true);
 
     try {
-      const url="http://localhost:5555/api/chat";
+      const url = `${CHAT_API_URL}/api/chat`;
       const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -81,7 +81,7 @@ export default function CreateCoursePage(){
     if(!courseId){return}
     try{
       setLoading(true);
-    const response=await axios.get(`http://localhost:9000/courses/${courseId}`)
+    const response=await axios.get(`${import.meta.env.VITE_API_URL}/courses/${courseId}`)
     setCourse(response.data.course)
     return response
   }catch(error){
@@ -149,7 +149,7 @@ export default function CreateCoursePage(){
       formData.append('thumbnail', form.thumbnail);
       formData.append('publishDate', form.publishDate)
 
-      const result=await axios.post('http://localhost:9000/courses', formData)
+      const result=await axios.post(`${import.meta.env.VITE_API_URL}/courses`, formData)
       console.log('Saved course:', result.data);
       const courseId=result.data.courseId
       console.log(courseId)

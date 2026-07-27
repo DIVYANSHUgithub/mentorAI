@@ -54,7 +54,7 @@ export default function UploadContentPage() {
   const loadCourse=async ()=>{
     try{
       setLoading(true);
-    const response=await axios.get(`http://localhost:9000/courses/${courseId}`)
+    const response=await axios.get(`${import.meta.env.VITE_API_URL}/courses/${courseId}`)
     setCourse(response.data.course)
     return response
   }catch(error){
@@ -110,7 +110,7 @@ export default function UploadContentPage() {
       formData.append('file', file)
       
 
-      const response=await axios.post(`http://localhost:9000/courses/${courseId}/sections/${sectionId}/upload`, formData)
+      const response=await axios.post(`${import.meta.env.VITE_API_URL}/courses/${courseId}/sections/${sectionId}/upload`, formData)
 
       setCourse(response.data.lecture);
       setTitle('');

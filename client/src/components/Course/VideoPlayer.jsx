@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import axios from "axios";
+import { apiClient } from '../../api/client';
 import { useNavigate, useParams, Link } from "react-router-dom";
 import {
   ArrowLeft,
@@ -34,7 +34,7 @@ import {
  * marigold, Fraunces / IBM Plex type system. Custom video controls on
  * the left, ticket-style curriculum accordion on the right.
  * Route: /learn/:courseId/:lectureId
- *   →  GET http://localhost:9000/courses/:courseId
+ *   →  GET ${import.meta.env.VITE_API_URL}/courses/:courseId
  * ---------------------------------------------------------------------
  */
 
@@ -101,12 +101,7 @@ export default function VideoPlayer() {
     try {
       setLoading(true);
       setError("");
-      const token = localStorage.getItem("token");
-      const response = await axios.get(`http://localhost:9000/courses/${courseId}/${lectureId}`,{
-        headers: {
-            Authorization: token
-        }
-      });
+      const response = await apiClient.get(`/courses/${courseId}/${lectureId}`);
       if(response.status===false){
 
       }
