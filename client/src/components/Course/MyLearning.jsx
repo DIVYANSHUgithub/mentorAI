@@ -268,175 +268,27 @@ function AchievementRow({ item }) {
 const TABS = ["All Courses", "In Progress", "Completed", "Wishlist"];
 
 const CONTINUE_LEARNING = [
-  {
-    id: "python",
-    title: "Python for Data Science",
-    instructor: "Dr. Alex Morgan",
-    next: "Data Visualization with Matplotlib",
-    lessons: "8/12 Lessons",
-    timeLeft: "1h 20m left",
-    progress: 65,
-    gradient: "from-[#0B1330] via-[#13275A] to-[#1E3A8A]",
-    Decoration: PythonDecoration,
-  },
-  {
-    id: "ml-basics",
-    title: "Machine Learning Basics",
-    instructor: "Dr. Angela Yu",
-    next: "Linear Regression",
-    lessons: "4/10 Lessons",
-    timeLeft: "2h 15m left",
-    progress: 40,
-    gradient: "from-[#7C3AED] via-[#6D28D9] to-[#3B0764]",
-    Decoration: CubesDecoration,
-  },
-  {
-    id: "system-design",
-    title: "System Design Interview Prep",
-    instructor: "Alex Xu",
-    next: "Scalability Basics",
-    lessons: "3/12 Lessons",
-    timeLeft: "2h 45m left",
-    progress: 30,
-    gradient: "from-[#1E293B] via-[#0F172A] to-black",
-    Decoration: GridDecoration,
-  },
+ 
 ];
 
 const ENROLLED_COURSES = [
-  {
-    id: "dbms",
-    title: "Database Management Systems",
-    instructor: "Kunal Kushwaha",
-    level: "Intermediate",
-    levelClass: "bg-indigo-50 text-indigo-600",
-    thumbGradient: "from-[#1E3A5F] to-[#0B1330]",
-    Icon: Database,
-    progress: 70,
-    lessons: "18/26 Lessons",
-  },
-  {
-    id: "os",
-    title: "Operating Systems",
-    instructor: "Neso Academy",
-    level: "Intermediate",
-    levelClass: "bg-indigo-50 text-indigo-600",
-    thumbGradient: "from-[#7F1D1D] to-[#3F0D0D]",
-    Icon: Cpu,
-    progress: 55,
-    lessons: "11/20 Lessons",
-  },
-  {
-    id: "webdev",
-    title: "Web Development Bootcamp",
-    instructor: "Colt Steele",
-    level: "Beginner",
-    levelClass: "bg-green-50 text-green-600",
-    thumbGradient: "from-[#065F46] to-[#022C22]",
-    Icon: Globe,
-    progress: 25,
-    lessons: "6/24 Lessons",
-  },
+ 
 ];
 
 const STATS = [
-  {
-    Icon: GraduationCap,
-    iconClass: "bg-purple-50 text-purple-600",
-    value: "12",
-    label: "Courses Enrolled",
-    sublabel: "Keep learning!",
-  },
-  {
-    Icon: Clock,
-    iconClass: "bg-blue-50 text-blue-600",
-    value: "45",
-    label: "Hours Learned",
-    sublabel: "+8 this week",
-  },
-  {
-    Icon: CheckCircle2,
-    iconClass: "bg-green-50 text-green-600",
-    value: "98",
-    label: "Lessons Completed",
-    sublabel: "+12 this week",
-  },
-  {
-    Icon: Award,
-    iconClass: "bg-orange-50 text-orange-600",
-    value: "3",
-    label: "Certificates Earned",
-    sublabel: "Amazing!",
-  },
+  
 ];
 
 const CALENDAR_EVENTS = [
-  {
-    Icon: Video,
-    iconClass: "bg-purple-50 text-purple-600",
-    title: "Live Class: Dynamic Programming",
-    time: "10:00 AM - 11:30 AM",
-    badge: "Live",
-    badgeClass: "bg-green-100 text-green-700",
-  },
-  {
-    Icon: HelpCircle,
-    iconClass: "bg-orange-50 text-orange-600",
-    title: "Quiz: Operating Systems",
-    time: "2:00 PM - 2:30 PM",
-    badge: "Quiz",
-    badgeClass: "bg-orange-100 text-orange-700",
-  },
-  {
-    Icon: FileText,
-    iconClass: "bg-blue-50 text-blue-600",
-    title: "Assignment: SQL Practice",
-    time: "11:59 PM",
-    badge: "Assignment",
-    badgeClass: "bg-gray-100 text-gray-600",
-  },
-  {
-    Icon: Video,
-    iconClass: "bg-green-50 text-green-600",
-    title: "Live Class: AI & ML Basics",
-    time: "7:00 PM - 8:30 PM",
-    badge: "Live",
-    badgeClass: "bg-green-100 text-green-700",
-  },
+  
 ];
 
 const ACHIEVEMENTS = [
-  {
-    Icon: Code2,
-    gradient: "from-purple-400 to-purple-600",
-    title: "Python Expert",
-    subtitle: "Completed 10 Python courses",
-    time: "2 days ago",
-  },
-  {
-    Icon: Flame,
-    gradient: "from-amber-400 to-orange-500",
-    title: "Consistency King",
-    subtitle: "7 days learning streak",
-    time: "5 days ago",
-  },
-  {
-    Icon: Zap,
-    gradient: "from-green-400 to-emerald-600",
-    title: "Quick Learner",
-    subtitle: "Completed 5 quizzes",
-    time: "1 week ago",
-  },
+  
 ];
 
 const STREAK_DAYS = [
-  { label: "Mon", active: true },
-  { label: "Tue", active: true },
-  { label: "Wed", active: true },
-  { label: "Thu", active: true },
-  { label: "Fri", active: true },
-  { label: "Sat", active: true },
-  { label: "Sun", active: false },
+  
 ];
 
 /* ------------------------------------------------------------------ */
@@ -620,7 +472,7 @@ export default function MyLearningDashboard() {
               </h3>
               <div className="mb-4 flex items-end gap-2">
                 <span className="text-4xl font-bold leading-none text-gray-900">
-                  14
+                  
                 </span>
                 <span className="pb-1 text-sm text-gray-500">Days</span>
               </div>
