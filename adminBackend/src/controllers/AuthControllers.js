@@ -21,7 +21,9 @@ export const signup=async(req,res)=>{
 
             })
     }catch(err){
+        console.log("error is : ", err)
         res.status(500)
+
             .json({message:"Internal Server Error",
                 success:false
             })
