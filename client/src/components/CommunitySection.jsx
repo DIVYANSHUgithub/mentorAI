@@ -23,116 +23,15 @@ function CommunitySection({ showDashboardBack }) {
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   const forums = [
-    {
-      id: 1,
-      title: "Best practices for React hooks",
-      author: "Sarah Chen",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
-      category: "Programming",
-      replies: 24,
-      views: 156,
-      likes: 18,
-      time: "2 hours ago",
-      isPinned: true,
-      tags: ["React", "JavaScript", "Hooks"]
-    },
-    {
-      id: 2,
-      title: "Machine Learning project ideas for beginners",
-      author: "Alex Rodriguez",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-      category: "AI & ML",
-      replies: 31,
-      views: 203,
-      likes: 25,
-      time: "5 hours ago",
-      isPinned: false,
-      tags: ["Machine Learning", "Python", "Beginner"]
-    },
-    {
-      id: 3,
-      title: "How to optimize database queries",
-      author: "Maria Garcia",
-      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-      category: "Data Science",
-      replies: 19,
-      views: 98,
-      likes: 12,
-      time: "1 day ago",
-      isPinned: false,
-      tags: ["Database", "SQL", "Performance"]
-    }
   ];
 
   const studyGroups = [
-    {
-      id: 1,
-      name: "React Masters",
-      members: 45,
-      category: "Programming",
-      description: "Advanced React development and best practices",
-      isActive: true,
-      nextSession: "Tomorrow, 2:00 PM"
-    },
-    {
-      id: 2,
-      name: "Data Science Beginners",
-      members: 32,
-      category: "Data Science",
-      description: "Learning Python, pandas, and basic ML concepts",
-      isActive: true,
-      nextSession: "Today, 7:00 PM"
-    },
-    {
-      id: 3,
-      name: "AI Ethics Discussion",
-      members: 28,
-      category: "AI & ML",
-      description: "Exploring the ethical implications of AI",
-      isActive: false,
-      nextSession: "Next week"
-    }
   ];
 
-  const challenges = [
-    {
-      id: 1,
-      title: "Build a Todo App",
-      description: "Create a full-stack todo application using React and Node.js",
-      participants: 156,
-      deadline: "3 days left",
-      difficulty: "Intermediate",
-      prize: "$500",
-      isActive: true
-    },
-    {
-      id: 2,
-      title: "Data Visualization Challenge",
-      description: "Create compelling visualizations using D3.js or Chart.js",
-      participants: 89,
-      deadline: "1 week left",
-      difficulty: "Advanced",
-      prize: "$750",
-      isActive: true
-    },
-    {
-      id: 3,
-      title: "AI Chatbot Competition",
-      description: "Build an intelligent chatbot using natural language processing",
-      participants: 203,
-      deadline: "2 weeks left",
-      difficulty: "Expert",
-      prize: "$1000",
-      isActive: true
-    }
+  const challenges = [ 
   ];
 
   const leaderboard = [
-    { rank: 1, name: "Sarah Chen", points: 2840, avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face", badge: "Gold" },
-    { rank: 2, name: "Alex Rodriguez", points: 2650, avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face", badge: "Silver" },
-    { rank: 3, name: "Maria Garcia", points: 2480, avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face", badge: "Bronze" },
-    { rank: 4, name: "John Smith", points: 2320, avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face", badge: "None" },
-    { rank: 5, name: "Emma Wilson", points: 2180, avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face", badge: "None" }
   ];
 
   return (

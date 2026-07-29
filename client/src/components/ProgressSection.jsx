@@ -49,34 +49,33 @@ function ProgressSection({ stats, recentActivities, showDashboardBack }) {
         {[
           { 
             label: 'Total Courses Enrolled', 
-            value: stats.totalCourses, 
+          
             icon: FaBook, 
             color: 'blue',
-            progress: 75,
-            subtitle: '12 active courses'
+          
+            subtitle: ''
           },
           { 
             label: 'Lessons Completed', 
-            value: stats.completedLessons, 
+        
             icon: FaCheckCircle, 
             color: 'green',
-            progress: 60,
-            subtitle: '23 lessons this month'
+           
+            subtitle: ''
           },
           { 
             label: 'Learning Hours', 
-            value: stats.totalHours, 
+         
             icon: FaClock, 
             color: 'purple',
-            progress: 85,
-            subtitle: '5.2 hours this week'
+           
+            subtitle: ''
           },
           { 
             label: 'Current Streak', 
-            value: `${stats.currentStreak} days`, 
+           
             icon: FaFire, 
             color: 'orange',
-            progress: 90,
             subtitle: 'Keep it up!'
           }
         ].map((stat, index) => (
@@ -140,7 +139,7 @@ function ProgressSection({ stats, recentActivities, showDashboardBack }) {
             <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Weekly Activity</h3>
             <div className="flex items-end space-x-2 h-24">
               {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => {
-                const height = [60, 80, 45, 90, 70, 85, 65][index];
+                const height = [][index];
                 return (
                   <motion.div
                     key={day}
@@ -172,10 +171,7 @@ function ProgressSection({ stats, recentActivities, showDashboardBack }) {
             <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Skills Progress</h3>
             <div className="space-y-3">
               {[
-                { skill: 'JavaScript', progress: 85, color: 'yellow' },
-                { skill: 'React', progress: 72, color: 'blue' },
-                { skill: 'Python', progress: 68, color: 'green' },
-                { skill: 'Machine Learning', progress: 45, color: 'purple' }
+               
               ].map((skill, index) => (
                 <div key={skill.skill} className="flex items-center justify-between">
                   <span className="text-sm text-gray-600 dark:text-gray-300">{skill.skill}</span>
@@ -210,12 +206,6 @@ function ProgressSection({ stats, recentActivities, showDashboardBack }) {
         
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {[
-            { name: 'First Course', icon: FaGraduationCap, color: 'blue', earned: true },
-            { name: 'Week Warrior', icon: FaFire, color: 'orange', earned: true },
-            { name: 'Code Master', icon: FaCode, color: 'green', earned: true },
-            { name: 'AI Explorer', icon: FaRobot, color: 'purple', earned: false },
-            { name: 'Data Wizard', icon: FaDatabase, color: 'indigo', earned: false },
-            { name: 'Community Hero', icon: FaUsers, color: 'pink', earned: false }
           ].map((badge, index) => (
             <motion.div
               key={badge.name}
@@ -277,6 +267,7 @@ function ProgressSection({ stats, recentActivities, showDashboardBack }) {
         </div>
       </motion.div>
     </div>
+    
   );
 }
 

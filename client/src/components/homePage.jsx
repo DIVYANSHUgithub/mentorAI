@@ -51,39 +51,11 @@ function HomePage() {
   ];
 
   const stats = {
-    totalCourses: 156,
-    completedLessons: 47,
-    totalHours: 23.5,
-    currentStreak: 7,
-    certificates: 3,
-    rank: "Gold"
+    
   };
 
   const recentActivities = [
-    {
-      id: 1,
-      type: "lesson_completed",
-      title: "Completed Neural Networks Basics",
-      course: "Machine Learning Fundamentals",
-      time: "2 hours ago",
-      icon: "FaCheckCircle"
-    },
-    {
-      id: 2,
-      type: "quiz_taken",
-      title: "Scored 85% on React Hooks Quiz",
-      course: "React.js Complete Guide",
-      time: "1 day ago",
-      icon: "FaTrophy"
-    },
-    {
-      id: 3,
-      type: "course_started",
-      title: "Started Python for Data Science",
-      course: "Python for Data Science",
-      time: "3 days ago",
-      icon: "FaPlay"
-    }
+   
   ];
 
   const handleLogout = () => {

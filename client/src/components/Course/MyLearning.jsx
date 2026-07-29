@@ -447,211 +447,212 @@ export default function MyLearningDashboard() {
   const [activeTab, setActiveTab] = useState("All Courses");
 
   return (
-    <div className="min-h-screen w-full bg-gray-50 antialiased">
-      <div className="mx-auto max-w-[1400px] px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
-        {/* Header */}
-        <header className="mb-6">
-          <h1 className="text-[28px] font-bold leading-tight tracking-tight text-gray-900">
-            My Learning
-          </h1>
-          <p className="mt-1 text-sm text-gray-500">
-            Keep learning, keep growing! 🚀
-          </p>
-        </header>
+    // <div className="min-h-screen w-full bg-gray-50 antialiased">
+    //   <div className="mx-auto max-w-[1400px] px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+    //     {/* Header */}
+    //     <header className="mb-6">
+    //       <h1 className="text-[28px] font-bold leading-tight tracking-tight text-gray-900">
+    //         My Learning
+    //       </h1>
+    //       <p className="mt-1 text-sm text-gray-500">
+    //         Keep learning, keep growing! 🚀
+    //       </p>
+    //     </header>
 
-        {/* Tabs */}
-        <nav className="mb-8 flex gap-7 overflow-x-auto border-b border-gray-200">
-          {TABS.map((tab) => {
-            const isActive = tab === activeTab;
-            return (
-              <button
-                key={tab}
-                type="button"
-                onClick={() => setActiveTab(tab)}
-                className={`relative shrink-0 whitespace-nowrap rounded-t-sm pb-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 ${
-                  isActive
-                    ? "text-indigo-600"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-              >
-                {tab}
-                {isActive && (
-                  <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-indigo-600" />
-                )}
-              </button>
-            );
-          })}
-        </nav>
+    //     {/* Tabs */}
+    //     <nav className="mb-8 flex gap-7 overflow-x-auto border-b border-gray-200">
+    //       {TABS.map((tab) => {
+    //         const isActive = tab === activeTab;
+    //         return (
+    //           <button
+    //             key={tab}
+    //             type="button"
+    //             onClick={() => setActiveTab(tab)}
+    //             className={`relative shrink-0 whitespace-nowrap rounded-t-sm pb-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 ${
+    //               isActive
+    //                 ? "text-indigo-600"
+    //                 : "text-gray-500 hover:text-gray-700"
+    //             }`}
+    //           >
+    //             {tab}
+    //             {isActive && (
+    //               <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-indigo-600" />
+    //             )}
+    //           </button>
+    //         );
+    //       })}
+    //     </nav>
 
-        {/* Content grid */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_380px]">
-          {/* Main column */}
-          <main className="min-w-0 space-y-8">
-            {/* Continue Learning */}
-            <section>
-              <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-lg font-bold text-gray-900">
-                  Continue Learning
-                </h2>
-                <button
-                  type="button"
-                  className="rounded text-sm font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
-                >
-                  View All
-                </button>
-              </div>
+    //     {/* Content grid */}
+    //     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_380px]">
+    //       {/* Main column */}
+    //       <main className="min-w-0 space-y-8">
+    //         {/* Continue Learning */}
+    //         <section>
+    //           <div className="mb-4 flex items-center justify-between">
+    //             <h2 className="text-lg font-bold text-gray-900">
+    //               Continue Learning
+    //             </h2>
+    //             <button
+    //               type="button"
+    //               className="rounded text-sm font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+    //             >
+    //               View All
+    //             </button>
+    //           </div>
 
-              <div className="relative">
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                  {CONTINUE_LEARNING.map((course) => (
-                    <CourseCard key={course.id} course={course} />
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  aria-label="See more courses"
-                  className="absolute right-0 top-1/2 hidden h-9 w-9 -translate-y-1/2 translate-x-1/2 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 shadow-md transition-colors hover:bg-gray-50 hover:text-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 lg:flex"
-                >
-                  <ChevronRight size={16} strokeWidth={1.75} />
-                </button>
-              </div>
-            </section>
+    //           <div className="relative">
+    //             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+    //               {CONTINUE_LEARNING.map((course) => (
+    //                 <CourseCard key={course.id} course={course} />
+    //               ))}
+    //             </div>
+    //             <button
+    //               type="button"
+    //               aria-label="See more courses"
+    //               className="absolute right-0 top-1/2 hidden h-9 w-9 -translate-y-1/2 translate-x-1/2 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 shadow-md transition-colors hover:bg-gray-50 hover:text-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 lg:flex"
+    //             >
+    //               <ChevronRight size={16} strokeWidth={1.75} />
+    //             </button>
+    //           </div>
+    //         </section>
 
-            {/* Enrolled courses */}
-            <section className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:p-6">
-              <div className="mb-2 flex items-center justify-between">
-                <h2 className="text-lg font-bold text-gray-900">
-                  My Enrolled Courses
-                </h2>
-                <button
-                  type="button"
-                  className="rounded text-sm font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
-                >
-                  View All
-                </button>
-              </div>
+    //         {/* Enrolled courses */}
+    //         <section className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:p-6">
+    //           <div className="mb-2 flex items-center justify-between">
+    //             <h2 className="text-lg font-bold text-gray-900">
+    //               My Enrolled Courses
+    //             </h2>
+    //             <button
+    //               type="button"
+    //               className="rounded text-sm font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+    //             >
+    //               View All
+    //             </button>
+    //           </div>
 
-              <div className="divide-y divide-gray-100">
-                {ENROLLED_COURSES.map((course) => (
-                  <EnrolledCourseRow key={course.id} course={course} />
-                ))}
-              </div>
+    //           <div className="divide-y divide-gray-100">
+    //             {ENROLLED_COURSES.map((course) => (
+    //               <EnrolledCourseRow key={course.id} course={course} />
+    //             ))}
+    //           </div>
 
-              <div className="mt-2 border-t border-gray-100 pt-4 text-center">
-                <button
-                  type="button"
-                  className="inline-flex items-center gap-1 rounded text-sm font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
-                >
-                  View All Enrolled Courses
-                  <ChevronDown size={15} strokeWidth={1.75} />
-                </button>
-              </div>
-            </section>
+    //           <div className="mt-2 border-t border-gray-100 pt-4 text-center">
+    //             <button
+    //               type="button"
+    //               className="inline-flex items-center gap-1 rounded text-sm font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+    //             >
+    //               View All Enrolled Courses
+    //               <ChevronDown size={15} strokeWidth={1.75} />
+    //             </button>
+    //           </div>
+    //         </section>
 
-            {/* Overall progress */}
-            <section>
-              <h2 className="mb-4 text-lg font-bold text-gray-900">
-                Overall Learning Progress
-              </h2>
-              <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-                {STATS.map((stat) => (
-                  <StatCard key={stat.label} stat={stat} />
-                ))}
-              </div>
-            </section>
-          </main>
+    //         {/* Overall progress */}
+    //         <section>
+    //           <h2 className="mb-4 text-lg font-bold text-gray-900">
+    //             Overall Learning Progress
+    //           </h2>
+    //           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+    //             {STATS.map((stat) => (
+    //               <StatCard key={stat.label} stat={stat} />
+    //             ))}
+    //           </div>
+    //         </section>
+    //       </main>
 
-          {/* Sidebar */}
-          <aside className="space-y-6">
-            {/* Learning calendar */}
-            <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
-              <div className="flex items-center justify-between">
-                <h3 className="text-base font-bold text-gray-900">
-                  Learning Calendar
-                </h3>
-                <button
-                  type="button"
-                  className="rounded text-xs font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
-                >
-                  View Calendar
-                </button>
-              </div>
-              <p className="mb-4 mt-1 text-xs text-gray-400">Today, 18 July</p>
+    //       {/* Sidebar */}
+    //       <aside className="space-y-6">
+    //         {/* Learning calendar */}
+    //         <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+    //           <div className="flex items-center justify-between">
+    //             <h3 className="text-base font-bold text-gray-900">
+    //               Learning Calendar
+    //             </h3>
+    //             <button
+    //               type="button"
+    //               className="rounded text-xs font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+    //             >
+    //               View Calendar
+    //             </button>
+    //           </div>
+    //           <p className="mb-4 mt-1 text-xs text-gray-400">Today, 18 July</p>
 
-              <div className="space-y-4">
-                {CALENDAR_EVENTS.map((event) => (
-                  <EventRow key={event.title} event={event} />
-                ))}
-              </div>
+    //           <div className="space-y-4">
+    //             {CALENDAR_EVENTS.map((event) => (
+    //               <EventRow key={event.title} event={event} />
+    //             ))}
+    //           </div>
 
-              <button
-                type="button"
-                className="mt-4 flex w-full items-center justify-center gap-1 border-t border-gray-100 pt-4 text-sm font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
-              >
-                View Full Calendar
-                <ChevronRight size={14} strokeWidth={1.75} />
-              </button>
-            </div>
+    //           <button
+    //             type="button"
+    //             className="mt-4 flex w-full items-center justify-center gap-1 border-t border-gray-100 pt-4 text-sm font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+    //           >
+    //             View Full Calendar
+    //             <ChevronRight size={14} strokeWidth={1.75} />
+    //           </button>
+    //         </div>
 
-            {/* Recent achievements */}
-            <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
-              <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-base font-bold text-gray-900">
-                  Recent Achievements
-                </h3>
-                <button
-                  type="button"
-                  className="rounded text-xs font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
-                >
-                  View All
-                </button>
-              </div>
-              <div className="space-y-4">
-                {ACHIEVEMENTS.map((item) => (
-                  <AchievementRow key={item.title} item={item} />
-                ))}
-              </div>
-            </div>
+    //         {/* Recent achievements */}
+    //         <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+    //           <div className="mb-4 flex items-center justify-between">
+    //             <h3 className="text-base font-bold text-gray-900">
+    //               Recent Achievements
+    //             </h3>
+    //             <button
+    //               type="button"
+    //               className="rounded text-xs font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+    //             >
+    //               View All
+    //             </button>
+    //           </div>
+    //           <div className="space-y-4">
+    //             {ACHIEVEMENTS.map((item) => (
+    //               <AchievementRow key={item.title} item={item} />
+    //             ))}
+    //           </div>
+    //         </div>
 
-            {/* Study streak */}
-            <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
-              <h3 className="mb-3 text-base font-bold text-gray-900">
-                Study Streak
-              </h3>
-              <div className="mb-4 flex items-end gap-2">
-                <span className="text-4xl font-bold leading-none text-gray-900">
-                  14
-                </span>
-                <span className="pb-1 text-sm text-gray-500">Days</span>
-              </div>
-              <div className="flex items-start justify-between">
-                {STREAK_DAYS.map((day) => (
-                  <div
-                    key={day.label}
-                    className="flex flex-col items-center gap-1.5"
-                  >
-                    <Flame
-                      size={20}
-                      strokeWidth={1.75}
-                      className={
-                        day.active
-                          ? "fill-orange-500 text-orange-500"
-                          : "fill-gray-100 text-gray-200"
-                      }
-                    />
-                    <span className="text-[11px] text-gray-400">
-                      {day.label}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-4 border-t border-gray-100 pt-4 text-xs text-gray-500">
-                Keep it up! 🔥 You're doing great.
-              </p>
-            </div>
-          </aside>
-        </div>
-      </div>
-    </div>
+    //         {/* Study streak */}
+    //         <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+    //           <h3 className="mb-3 text-base font-bold text-gray-900">
+    //             Study Streak
+    //           </h3>
+    //           <div className="mb-4 flex items-end gap-2">
+    //             <span className="text-4xl font-bold leading-none text-gray-900">
+    //               14
+    //             </span>
+    //             <span className="pb-1 text-sm text-gray-500">Days</span>
+    //           </div>
+    //           <div className="flex items-start justify-between">
+    //             {STREAK_DAYS.map((day) => (
+    //               <div
+    //                 key={day.label}
+    //                 className="flex flex-col items-center gap-1.5"
+    //               >
+    //                 <Flame
+    //                   size={20}
+    //                   strokeWidth={1.75}
+    //                   className={
+    //                     day.active
+    //                       ? "fill-orange-500 text-orange-500"
+    //                       : "fill-gray-100 text-gray-200"
+    //                   }
+    //                 />
+    //                 <span className="text-[11px] text-gray-400">
+    //                   {day.label}
+    //                 </span>
+    //               </div>
+    //             ))}
+    //           </div>
+    //           <p className="mt-4 border-t border-gray-100 pt-4 text-xs text-gray-500">
+    //             Keep it up! 🔥 You're doing great.
+    //           </p>
+    //         </div>
+    //       </aside>
+    //     </div>
+    //   </div>
+    // </div>
+    <div>comming soon</div>
   );
 }
