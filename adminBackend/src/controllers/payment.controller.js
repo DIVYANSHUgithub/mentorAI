@@ -20,7 +20,7 @@ export const paymentController=async (req, res)=>{
         const courseprice=course.price
         const options={
             amount:courseprice*100,
-            currency:"INR",
+            currency: course.currency || "INR",
             receipt:`c_${courseId}`
         }
         const order=await razorpay.orders.create(options)
@@ -89,7 +89,7 @@ export const verifyPayment = async (req, res) => {
             razorpay_order_id,
             razorpay_payment_id,
             amount: course.price,
-            currency: course.currency,
+            currency: course.currency || "INR",
             status: "success",
             paidAt: new Date()
         });

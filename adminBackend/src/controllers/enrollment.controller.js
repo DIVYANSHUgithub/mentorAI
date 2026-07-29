@@ -5,7 +5,7 @@ export const enrollment=async (req, res)=>{
         const {courseId}=req.params;
         const userId=req.user._id;
         const enrolledStatus= await Enrollment.findOne({
-            userId: userId,
+            userId,
             courseId,
         });
         
