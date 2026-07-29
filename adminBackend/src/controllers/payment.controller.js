@@ -1,4 +1,4 @@
-import Course from "../../model/courseModel.js"
+import Course from "../models/course.model.js"
 import razorpay from "../config/razorpay.js";
 
 import crypto from "crypto"
