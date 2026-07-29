@@ -38,7 +38,7 @@ const PaymentSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["success", "failed"],
+      enum: ["pending","success", "failed"],
       required: true,
     },
 
@@ -52,5 +52,5 @@ const PaymentSchema = new mongoose.Schema(
 
 
 
-const Payment= mongoose.model("Payment Model", PaymentSchema);
+const Payment= mongoose.model("Payment", PaymentSchema);
 export default Payment

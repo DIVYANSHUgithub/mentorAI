@@ -7,7 +7,22 @@ import sectionRoutes from './routes/section.routes.js';
 import authRoutes from './routes/authRouter.js';
 import PaymentRoute from './routes/payments.routes.js';
 import EnrollmentRoute from './routes/enrollment.routes.js';
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+ 
+
+
 const app = express();
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100
+});
+
+app.use(limiter);
+
+app.use(helmet());
+
 
 app.use(cors());
 app.use(express.json());

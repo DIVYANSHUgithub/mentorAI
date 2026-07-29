@@ -24,7 +24,7 @@ const enrollmentSchema = new mongoose.Schema(
 );
 
 enrollmentSchema.index(
-    { studentId: 1, courseId: 1 },
+    { userId: 1, courseId: 1 },
     { unique: true }
 );
 

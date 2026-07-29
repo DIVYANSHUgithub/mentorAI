@@ -51,8 +51,8 @@ export const verifyPayment = async (req, res) => {
             razorpay_payment_id,
             razorpay_signature,
             courseId,
-            userId
         } = req.body;
+        const userId=req.user._id
         console.log(userId)
         const body = `${razorpay_order_id}|${razorpay_payment_id}`;
         const expectedSignature = crypto
@@ -67,12 +67,18 @@ export const verifyPayment = async (req, res) => {
             });
         }
         const course=await Course.findById(courseId)
+        if (!course) {
+        return res.status(404).json({
+            success: false,
+            message: "Course not found"
+        });
+}
         const existingPayment = await Payment.findOne({
             razorpay_payment_id
         });
         if(existingPayment)
         {
-            res.status(400).json({
+            return res.status(400).json({
                 status:false,
                 message:"payment already recorded"
             })
