@@ -7,12 +7,7 @@ import {
   FaClock, 
   FaFire, 
   FaTrophy, 
-  FaVideo,
-  FaGraduationCap,
-  FaCode,
-  FaDatabase,
-  FaRobot,
-  FaUsers
+  
 } from 'react-icons/fa';
 
 function ProgressSection({ stats, recentActivities, showDashboardBack }) {
