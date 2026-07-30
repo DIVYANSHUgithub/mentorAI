@@ -4,16 +4,23 @@ import {
   FaBrain, 
   FaUser, 
   FaBell, 
-  FaSearch
+  FaSearch,
+  FaBars
 } from 'react-icons/fa';
 
-function Header({ user, searchQuery, setSearchQuery, notifications }) {
+function Header({ user, searchQuery, setSearchQuery, notifications, setMobileSidebarOpen }) {
   const [showNotifications, setShowNotifications] = useState(false);
 
   return (
     <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
       <div className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center space-x-4">
+          <button
+              onClick={() => setMobileSidebarOpen(true)}
+              className="md:hidden mr-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          >
+              <FaBars className="text-xl" />
+          </button>
           <div className="flex items-center space-x-2">
             <FaBrain className="text-2xl text-blue-600" />
             <span className="text-xl font-bold text-gray-900 dark:text-white">EDUAI</span>

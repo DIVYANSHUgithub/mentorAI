@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { API_URL } from '../config/env';
 import {Link, useNavigate} from 'react-router-dom'
 import {ToastContainer} from 'react-toastify'
@@ -10,6 +10,13 @@ const Login = () => {
         password:'',
     });
     const navigate=useNavigate();
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        if (token) {
+            navigate("/home", { replace: true });
+        }
+    }, [navigate]);
     const handleChange=(e)=>{
         const {name, value}=e.target;
         const copyLoginInfo={...loginInfo};

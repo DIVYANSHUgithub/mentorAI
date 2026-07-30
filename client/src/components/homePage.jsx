@@ -16,7 +16,8 @@ function HomePage() {
   const [user, setUser] = useState(null);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [searchQuery, setSearchQuery] = useState('');
-  const [sidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const {userId}=useParams();
 
   // Mock user data
@@ -27,27 +28,7 @@ function HomePage() {
 
   // Mock course data
   const notifications = [
-    {
-      id: 1,
-      title: "New course available",
-      message: "Advanced React Patterns is now live!",
-      time: "2 hours ago",
-      type: "course"
-    },
-    {
-      id: 2,
-      title: "Assignment reminder",
-      message: "ML Fundamentals Quiz 3 due tomorrow",
-      time: "1 day ago",
-      type: "assignment"
-    },
-    {
-      id: 3,
-      title: "Achievement unlocked",
-      message: "You've completed 10 lessons this week!",
-      time: "2 days ago",
-      type: "achievement"
-    }
+    
   ];
 
   const stats = {
@@ -122,19 +103,28 @@ function HomePage() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         notifications={notifications}
+        setMobileSidebarOpen={setMobileSidebarOpen}
       />
 
       <div className="flex">
         {/* Sidebar */}
         <Sidebar
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          sidebarCollapsed={sidebarCollapsed}
-          handleLogout={handleLogout}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            sidebarCollapsed={sidebarCollapsed}
+            setSidebarCollapsed={setSidebarCollapsed}
+            mobileSidebarOpen={mobileSidebarOpen}
+            setMobileSidebarOpen={setMobileSidebarOpen}
+            handleLogout={handleLogout}
         />
-
+        {mobileSidebarOpen && (
+            <div
+                className="fixed inset-0 bg-black/50 z-40 md:hidden"
+                onClick={() => setMobileSidebarOpen(false)}
+            />
+        )}
         {/* Main Content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 w-full min-w-0 p-4 md:p-6 overflow-x-hidden">
           {renderActiveSection()}
         </main>
       </div>

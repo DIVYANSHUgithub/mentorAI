@@ -428,7 +428,7 @@ export default function MyLearningDashboard() {
                   View Calendar
                 </button>
               </div>
-              <p className="mb-4 mt-1 text-xs text-gray-400">Today, 18 July</p>
+              <p className="mb-4 mt-1 text-xs text-gray-400">Today</p>
 
               <div className="space-y-4">
                 {CALENDAR_EVENTS.map((event) => (

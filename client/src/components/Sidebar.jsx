@@ -8,14 +8,19 @@ import {
   FaRobot,
   FaCog,
   FaSignOutAlt,
-  FaBookmark
+  FaBookmark,
+  FaChevronLeft,
+  FaChevronRight
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 function Sidebar({ 
-  activeTab, 
+  activeTab,
   setActiveTab,
-  sidebarCollapsed
+  sidebarCollapsed,
+  setSidebarCollapsed,
+  mobileSidebarOpen,
+  setMobileSidebarOpen
 }) {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: FaChartLine },
@@ -37,9 +42,50 @@ function Sidebar({
     localStorage.removeItem('userToken');
     navigate('/');
   };
+  const sidebarWidth =
+    mobileSidebarOpen
+        ? "w-64"
+        : sidebarCollapsed
+        ? "w-20"
+        : "w-64";
+  const sidebarClasses = `
+      fixed md:static
+      top-0 left-0
+      h-screen
+      z-50
+      bg-white dark:bg-gray-800
+      border-r border-gray-200 dark:border-gray-700
+      shadow-lg
+      transition-all duration-300
+
+      w-64
+
+      ${mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"}
+
+      md:translate-x-0
+      ${sidebarCollapsed ? "md:w-20" : "md:w-64"}
+      `;
 
   return (
-    <aside className={`bg-white dark:bg-gray-800 shadow-sm border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ${sidebarCollapsed ? 'w-16' : 'w-64'}`}>
+    <aside className={sidebarClasses}>
+      <div className="flex justify-end p-2">
+          <button
+              onClick={() => {
+                  if (window.innerWidth < 768) {
+                      setMobileSidebarOpen(false);
+                  } else {
+                      setSidebarCollapsed(!sidebarCollapsed);
+                  }
+              }}
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200"
+          >
+              {sidebarCollapsed ? (
+                  <FaChevronRight />
+              ) : (
+                  <FaChevronLeft />
+              )}
+          </button>
+      </div>
       <div className="p-4">
         <nav className="space-y-2">
           {navItems.map((item) => (
@@ -49,6 +95,10 @@ function Sidebar({
               whileTap={{ scale: 0.98 }}
               onClick={() => {
                   setActiveTab(item.id);
+
+                  if (window.innerWidth < 768) {
+                      setMobileSidebarOpen(false);
+                  }
               }}
               className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
                 activeTab === item.id

@@ -17,6 +17,15 @@ import Login from './login';
 
 function LandingPage() {
   const navigate = useNavigate();
+  const handleGetStarted = () => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+        navigate("/home");
+    } else {
+        navigate("/login");
+    }
+};
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
 
@@ -79,7 +88,7 @@ function LandingPage() {
               <a href="#how-it-works" className="text-gray-600 hover:text-blue-600 transition-colors">How it Works</a>
               <a href="#testimonials" className="text-gray-600 hover:text-blue-600 transition-colors">Testimonials</a>
               <button 
-                onClick={() => navigate('/login')}
+                onClick={handleGetStarted}
                 className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
               >
                 Get Started
@@ -111,7 +120,7 @@ function LandingPage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => navigate('/login')}
+                  onClick={handleGetStarted}
                   className="bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2"
                 >
                   <FaPlay />
