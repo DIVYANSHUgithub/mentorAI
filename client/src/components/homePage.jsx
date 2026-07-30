@@ -124,7 +124,7 @@ function HomePage() {
             />
         )}
         {/* Main Content */}
-        <main className="flex-1 w-full min-w-0 p-4 md:p-6 overflow-x-hidden">
+        <main className="flex-1 w-full min-w-0 p-2 sm:p-4 md:p-6 overflow-x-hidden">
           {renderActiveSection()}
         </main>
       </div>

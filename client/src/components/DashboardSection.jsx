@@ -152,7 +152,7 @@ function DashboardSection({ user, stats, recentActivities, searchQuery }) {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700 rounded-2xl p-6 text-white"
+        className="bg-gradient-to-r from-red-600 to-blue-600 rounded-2xl p-4 md:p-6 text-white"
       >
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
@@ -182,7 +182,7 @@ function DashboardSection({ user, stats, recentActivities, searchQuery }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow"
+            className="bg-white dark:bg-gray-800 rounded-xl p-4 md:p-6 shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow"
           >
             <div className="flex items-center justify-between">
               <div>
@@ -377,7 +377,7 @@ function LoadingGrid() {
       {[...Array(6)].map((_, i) => (
         <div key={i} className="overflow-hidden rounded-2xl border" style={{ borderColor: PALETTE.hairline, background: PALETTE.card }}>
           <div className="skeleton-pulse h-48 bg-slate-200" />
-          <div className="space-y-4 p-6">
+          <div className="space-y-4 md:space-y-6">
             <div className="skeleton-pulse h-4 w-24 rounded bg-slate-200" />
             <div className="skeleton-pulse h-6 w-3/4 rounded bg-slate-200" />
             <div className="skeleton-pulse h-4 w-full rounded bg-slate-200" />
