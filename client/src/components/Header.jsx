@@ -14,7 +14,7 @@ function Header({ user, searchQuery, setSearchQuery, notifications, setMobileSid
   return (
     <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
       <div className="flex items-center justify-between px-6 py-4">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 md:py-4">
           <button
               onClick={() => setMobileSidebarOpen(true)}
               className="md:hidden mr-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
@@ -29,14 +29,14 @@ function Header({ user, searchQuery, setSearchQuery, notifications, setMobileSid
 
         <div className="flex items-center space-x-4">
           {/* Search Bar */}
-          <div className="relative">
+          <div className="hidden sm:block relative">
             <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" />
             <input
               type="text"
               placeholder="Search courses, topics..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent w-64 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+              className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent w-48 lg:w-64 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
             />
           </div>
 
@@ -89,7 +89,7 @@ function Header({ user, searchQuery, setSearchQuery, notifications, setMobileSid
 
           {/* User Profile */}
           <div className="flex items-center space-x-3">
-            <div className="text-right">
+            <div className="hidden md:block text-right">
               <p className="text-sm font-medium text-gray-900 dark:text-white">{user|| 'Demo User'}</p>
               <p className="text-xs text-gray-500 dark:text-gray-400">{user?.role || 'Student'}</p>
             </div>
