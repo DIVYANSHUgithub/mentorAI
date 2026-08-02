@@ -131,14 +131,27 @@ function DashboardSection({ user, stats, recentActivities, searchQuery }) {
   }, [publishedCourses, search, category]);
 
   return (
-    <div className="min-h-screen" style={{ background: PALETTE.paper }}>
+    <div className="min-h-screen bg-[#FBF9F4] dark:bg-gray-900">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap');
         .font-display { font-family: 'Fraunces', serif; font-optical-sizing: auto; }
         .font-body { font-family: 'IBM Plex Sans', sans-serif; }
         .font-mono { font-family: 'IBM Plex Mono', monospace; }
-        .perforation { border-top: 2px dashed ${PALETTE.hairline}; }
-        .notch { background: ${PALETTE.paper}; }
+        .perforation {
+          border-top: 2px dashed #E7E2D6;
+        }
+
+        .dark .perforation {
+          border-top: 2px dashed #374151;
+        }
+
+        .notch {
+          background: #FBF9F4;
+        }
+
+        .dark .notch {
+          background: #111827;
+        }
         .ticket-card { transition: transform .35s ease, box-shadow .35s ease; }
         .ticket-card:hover { transform: translateY(-6px); box-shadow: 0 24px 48px -20px rgba(18,33,61,0.25); }
         .skeleton-pulse { animation: pulse 1.6s ease-in-out infinite; }
