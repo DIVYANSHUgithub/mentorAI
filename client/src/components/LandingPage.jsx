@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Signup from './signup';
 import { useNavigate } from 'react-router-dom';
@@ -15,19 +15,20 @@ import Login from './login';
 import {jwtDecode} from 'jwt-decode'
 
 
+
 function LandingPage() {
   const navigate = useNavigate();
-  const handleGetStarted = () => {
-    const token = localStorage.getItem("token");
-    
+  const token = localStorage.getItem("token");
+  const handleGetStarted = () => {    
     if(token)
     {
       const decoded=jwtDecode(token);
-      navigate(`/home/${decoded._id}`);
+      navigate(`/home`);
     } else {
         navigate("/login");
     }
 };
+
 
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
@@ -138,6 +139,7 @@ function LandingPage() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-50 transition-colors flex items-center justify-center space-x-2"
+                  onClick={()=> navigate(`/demo`)}
                 >
                   <span>Watch Demo</span>
                   <FaArrowRight />

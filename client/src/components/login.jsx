@@ -53,7 +53,7 @@ const Login = () => {
                 localStorage.setItem('userMail', email);
                 localStorage.setItem('isLoggedIn', 'true');
                 setTimeout(()=>{
-                    navigate(`/home/${result.user._id}`)
+                    navigate(`/home`)
                 }, 1000)
             }
             else if(error){

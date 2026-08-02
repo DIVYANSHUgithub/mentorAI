@@ -8,7 +8,7 @@ import {
   FaBars
 } from 'react-icons/fa';
 
-function Header({ user, searchQuery, setSearchQuery, notifications, setMobileSidebarOpen }) {
+function Header({ user, searchQuery, setSearchQuery, notifications, setMobileSidebarOpen, demoMode }) {
   const [showNotifications, setShowNotifications] = useState(false);
 
   return (
@@ -26,6 +26,11 @@ function Header({ user, searchQuery, setSearchQuery, notifications, setMobileSid
             <span className="text-xl font-bold text-gray-900 dark:text-white">EDUAI</span>
           </div>
         </div>
+        {demoMode && (
+          <span className="hidden md:inline-flex items-center rounded-full bg-amber-100 text-amber-800 px-3 py-1 text-xs font-semibold">
+              Demo Mode
+          </span>
+      )}
 
         <div className="flex items-center space-x-4">
           {/* Search Bar */}

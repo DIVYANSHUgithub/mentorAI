@@ -10,15 +10,27 @@ import SettingsSection from './SettingsSection';
 import OfferedCourses from './Course/OfferedCourses';
 import EduAIAssistant from './eduaiAssistant';
 import MyLearningDashboard from './Course/MyLearning';
+import LoginRequiredModal from "./loginRequiredModal";
 
-function HomePage() {
+function HomePage({ demoMode = false }) {
   const navigate = useNavigate();
+   const isDemo = demoMode;
   const [user, setUser] = useState(null);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [searchQuery, setSearchQuery] = useState('');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const {userId}=useParams();
+  const [showLoginModal, setShowLoginModal] = useState(false);
+const [requestedFeature, setRequestedFeature] = useState("");
+const requireLogin = (feature) => {
+    if (!isDemo) return false;
+
+    setRequestedFeature(feature);
+    setShowLoginModal(true);
+
+    return true;
+};
 
   // Mock user data
   useEffect(() => {
@@ -54,6 +66,7 @@ function HomePage() {
       case 'dashboard':
         return (
           <DashboardSection
+        
             user={user}
             stats={stats}
             recentActivities={recentActivities}
@@ -63,22 +76,31 @@ function HomePage() {
       case 'progress':
         return (
           <ProgressSection
+          
             stats={stats}
             
             recentActivities={recentActivities}
           />
         );
       case 'courses':
-        return <OfferedCourses userId/>;
+        return <OfferedCourses 
+        
+        userId/>;
       case 'myLearning':
-        return <MyLearningDashboard/>;
+        
+        return <MyLearningDashboard
+        />;
       case 'community':
-        return <CommunitySection />;
+        return <CommunitySection
+        />;
       case 'ai-assistant':
-        return <EduAIAssistant/>
+        return <EduAIAssistant
+         isDemo={isDemo}
+            requireLogin={requireLogin}/>
       case 'settings':
         return (
           <SettingsSection
+          href={"settings"}
             user={user}
             handleLogout={handleLogout}
           />
@@ -104,6 +126,7 @@ function HomePage() {
         setSearchQuery={setSearchQuery}
         notifications={notifications}
         setMobileSidebarOpen={setMobileSidebarOpen}
+        demoMode={isDemo}
       />
 
       <div className="flex">
@@ -128,6 +151,11 @@ function HomePage() {
           {renderActiveSection()}
         </main>
       </div>
+      <LoginRequiredModal
+    isOpen={showLoginModal}
+    feature={requestedFeature}
+    onClose={() => setShowLoginModal(false)}
+/>
     </div>
   );
 }

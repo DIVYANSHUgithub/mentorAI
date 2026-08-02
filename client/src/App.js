@@ -37,7 +37,12 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
           <Route path="/home/:userId" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
-          
+          <Route
+              path="/demo"
+              element={
+                  <HomePage demoMode={true} />
+              }
+          />
           <Route
             path="/progress"
             element={

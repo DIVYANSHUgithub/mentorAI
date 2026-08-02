@@ -19,6 +19,7 @@ import {
   Check,
   RefreshCw,
 } from "lucide-react";
+import { jwtDecode } from 'jwt-decode';
 
 // Shared courses data - matches OfferedCourses
 const AVAILABLE_COURSES = [
@@ -65,8 +66,10 @@ const AVAILABLE_COURSES = [
 ];
 
 function DashboardSection({ user, stats, recentActivities, searchQuery }) {
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  const [userId, setUserId]=useState();
+  
   const handleCourseClick = (courseId) => {
     navigate(`/courses/${courseId}`);
   };
@@ -87,6 +90,12 @@ function DashboardSection({ user, stats, recentActivities, searchQuery }) {
   const [category, setCategory] = useState("All");
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+        const decoded = jwtDecode(token);
+        setUserId(decoded._id);
+    }
     fetchCourses();
   }, []);
 
@@ -222,7 +231,10 @@ function DashboardSection({ user, stats, recentActivities, searchQuery }) {
               <CourseTicket
                 key={course._id}
                 course={course}
-                onExplore={() => navigate(`./courses/course/${course._id}`)}
+                onExplore={() => {
+                  if(!userId) return;
+                  navigate(`../home/${userId}/courses/course/${course._id}`)
+                }}
                 onBuy={() => navigate(`/checkout/${course._id}`)}
               />
             ))}

@@ -74,6 +74,7 @@ import {
   Check,
   RefreshCw,
 } from "lucide-react";
+import { jwtDecode } from "jwt-decode";
 
 /**
  * OfferedCourses
@@ -105,15 +106,22 @@ function initials(name = "") {
   return name.trim().charAt(0).toUpperCase() || "?";
 }
 
-export default function OfferedCourses(userId) {
+export default function OfferedCourses() {
   const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
-
+  const [userId, setUserId]=useState()
+  
   useEffect(() => {
+
+    const token=localStorage.getItem("token")
+    if(token){
+    const decoded=jwtDecode(token)
+    setUserId(decoded._id)
+    }
     fetchCourses();
   }, []);
 
@@ -318,7 +326,7 @@ export default function OfferedCourses(userId) {
               <CourseTicket
                 key={course._id}
                 course={course}
-                onExplore={() => navigate(`./courses/course/${course._id}`)}
+                onExplore={() => navigate(`/home/${userId}/courses/course/${course._id}`)}
                 onBuy={() => navigate(`/checkout/${course._id}`)}
               />
             ))}

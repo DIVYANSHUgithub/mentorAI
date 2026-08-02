@@ -2,7 +2,7 @@ import { CHAT_API_URL } from '../config/env';
 import { useState, useEffect, useRef } from 'react';
 import PageBackNav from './PageBackNav';
 
-function EduAIAssistant() {
+function EduAIAssistant({ isDemo, requireLogin }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -20,6 +20,10 @@ function EduAIAssistant() {
 
   const handleSend = async (e) => {
     e.preventDefault();
+    if (isDemo) {
+    requireLogin("AI Assistant");
+    return;
+}
     if (!input.trim() || loading) return;
 
     const userMessage = { role: 'user', content: input.trim() };
