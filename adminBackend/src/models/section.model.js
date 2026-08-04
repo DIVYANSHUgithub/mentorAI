@@ -18,6 +18,8 @@ const sectionSchema = new mongoose.Schema({
   order: {
     type: Number,
   },
+},{
+    timestamps: true
 });
 
 sectionSchema.index({

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+
 const Schema=mongoose.Schema;
 
 const UserSchema=new Schema({
@@ -15,6 +16,8 @@ const UserSchema=new Schema({
         type:String,
         required:true
     }
+},{
+    timestamps: true
 });
 const UserModel=mongoose.model('users', UserSchema);
 export default UserModel;
